@@ -34,7 +34,7 @@ function longClickMenu(e) {
 					success: function(res) {
 						var temp_consle = res.data;
 						for(var i = 0; i < temp_consle.length; i++) {
-							if(temp_consle[i].objectId == e.target.id) {
+							if(temp_consle[i].objectId == objectId) {
 								guagua_ni_hao_ya_xixi = temp_consle[i].note_title;
 								temp_consle.splice(i, 1);
 								wx.setStorage({
