@@ -6,13 +6,7 @@ var version = '0.2.0';
 // 自定义公共方法
 var gong = {};
 
-// start
-// 配置Bmob密钥
-Bmob.initialize("b084f703516703e22c8355902d0796d8", "6e5667dc1303fc0df0633865834ea82a");
-// 小程序 Id 密钥
-var appId='wxf899195dedd20c2a';
-var appSecret='0fe91d7eb06e64f700c8ec415674e6f8';
-// end
+
 
 // 全局方法App
 App({
