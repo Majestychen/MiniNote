@@ -145,7 +145,11 @@ Page({
 	},
 
 	onUnload: function() {
-		submit();
+		if(over.input_content || over.input_title) {
+			submit();
+		} else {
+
+		}
 	},
 
 	btnHover: function() {

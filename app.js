@@ -5,15 +5,13 @@ var Bmob = require('utils/bmob.js');
 var version = '0.2.0';
 // 自定义公共方法
 var gong = {};
-
-var key = require('utils/key.js');
-
+var getKey = require('utils/key.js');
 // start
 // 配置Bmob密钥
-Bmob.initialize(key.getKey('bmob1'), key.getKey('bmob2'));
+Bmob.initialize(getKey.getKey('bmob1'), getKey.getKey('bmob2'));
 // 小程序 Id 密钥
-var appId = key.getKey('appId');
-var appSecret = key.getKey('appSecret');
+var appId = getKey.getKey('appId');
+var appSecret = getKey.getKey('appSecret');
 // end
 
 // 全局方法App

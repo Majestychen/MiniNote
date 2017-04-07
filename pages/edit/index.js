@@ -38,6 +38,52 @@ function setEditData() {
 		}
 	});
 };
+
+function goSave() {
+	var Diary = BmobEdit.Object.extend("user_note");
+	var query = new BmobEdit.Query(Diary);
+	query.get(over.objectId, {
+		success: function(result) {
+			if(over.input_title != '') {
+				result.set("note_title", over.input_title);
+				over.editData[over.arrayId].input_title = over.input_title;
+			}
+			if(over.input_content || over.input_content == '') {
+				result.set("note_content", over.input_content);
+				over.editData[over.arrayId].input_content = over.input_content;
+			}
+			result.set("note_date", app.getNowTimeformat());
+			over.editData[over.arrayId].note_date = app.getNowTimeformat();
+			result.save({
+				success: function(res) {
+					wx.setStorage({
+						key: 'all_note_data_001',
+						data: over.editData,
+						success: function(res) {
+							wx.navigateBack({
+								url: '../note/index'
+							})
+						},
+						fail: function() {
+							// fail
+						},
+						complete: function() {
+							// complete
+						}
+					});
+				}
+			});
+		},
+		error: function(object, error) {
+			console.log(error)
+			wx.showToast({
+				title: '网络故障,请重试',
+				icon: 'loading',
+				duration: 600
+			})
+		}
+	});
+};
 Page({
 	data: {
 		sendBtn: 'sendBtn',
@@ -88,49 +134,7 @@ Page({
 	*/
 
 	submit: function(e) {
-		var Diary = BmobEdit.Object.extend("user_note");
-		var query = new BmobEdit.Query(Diary);
-		query.get(over.objectId, {
-			success: function(result) {
-				if(over.input_title != '') {
-					result.set("note_title", over.input_title);
-					over.editData[over.arrayId].input_title = over.input_title;
-				}
-				if(over.input_content || over.input_content == '') {
-					result.set("note_content", over.input_content);
-					over.editData[over.arrayId].input_content = over.input_content;
-				}
-				result.set("note_date", app.getNowTimeformat());
-				over.editData[over.arrayId].note_date = app.getNowTimeformat();
-				result.save({
-					success: function(res) {
-						wx.setStorage({
-							key: 'all_note_data_001',
-							data: over.editData,
-							success: function(res) {
-								wx.navigateBack({
-									url: '../note/index'
-								})
-							},
-							fail: function() {
-								// fail
-							},
-							complete: function() {
-								// complete
-							}
-						});
-					}
-				});
-			},
-			error: function(object, error) {
-				console.log(error)
-				wx.showToast({
-					title: '网络故障,请重试',
-					icon: 'loading',
-					duration: 600
-				})
-			}
-		});
+		goSave();
 	},
 
 	btnHover: function() {
@@ -145,7 +149,9 @@ Page({
 	},
 
 	// 页面卸载
-	onUnload: function() {},
+	onUnload: function() {
+	},
 
-	onHide: function() {},
+	onHide: function() {
+	},
 });
