@@ -1,0 +1,9 @@
+/**app.wxss**/
+/*全局背景颜色*/
+page{
+    background: #ebebeb;
+}
+.placeholder{
+    font-size: 30rpx;
+    color: #999;
+}

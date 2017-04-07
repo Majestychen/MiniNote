@@ -1,0 +1,27 @@
+
+<!--index.wxml-->
+<view class="bigman">
+  <view class="container" bindtap="bigman">
+    <view class='wenti'>问题和意见</view>
+
+    <!--反馈内容-->
+    <view class='row' catchtap="onFocus" bindtap="bigman">
+      <textarea bindconfirm="zhengzai_input1" bindblur="zhengzai_input" class='text' maxlength="4000" focus="{{focus_input}}" name="content" placeholder="问题/意见描述" />
+    </view>
+    
+    <view class='wenti'>图片(选填,上传问题截图,6张以内)</view>
+    <view class='row'>
+      <image src="http://ojuwy6uww.bkt.clouddn.com/add_group_member.png" bindtap='chooseimg'></image>
+      <block wx:for='{{src}}'>
+        <image src="{{item}}"></image>
+      </block>
+    </view>
+    <view class='wenti'>您的联系方式</view>
+
+    <!--联系方式-->
+    <view class='title' bindtap="auto_function">
+      <input name="title" type="text" bindblur="q_title_input" maxlength='32' placeholder="(选填)" value="" />
+    </view>
+    <view class='sendBtn' bindtap="submit">好</view>
+  </view>
+</view>

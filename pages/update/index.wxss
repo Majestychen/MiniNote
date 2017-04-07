@@ -1,0 +1,99 @@
+/**index.wxss**/
+
+page {
+      background: #fff;
+}
+
+.container {
+    background: #fff;
+}
+
+.userinfo {
+  flex-direction: column;
+  display: block;
+  position: relative;
+  float: left;
+}
+
+.userinfo-avatar {
+  width: 130rpx;
+  height: 130rpx;
+  /*margin: 20rpx;*/
+  border-radius: 50%;
+  margin-left: 50rpx;
+}
+
+.top {
+  padding-top: 10px;
+  text-align: center;
+}
+
+.top text {
+  font-size: 20px;
+}
+
+.fenlei{
+  padding: 8px 15px 8px 15px;
+  font-size: 16px;
+}
+
+.fenlei view{
+  padding-left: 10px;
+  font-size: 14px;line-height:20px;
+
+}
+
+.fenlei text{
+
+}
+
+.userinfo-nickname {
+  color: #aaa;
+}
+
+.user_image {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  margin: 0 auto;
+  margin-top: 20rpx;
+}
+
+.top_img {
+  padding-top: 55rpx;
+  display: flex;
+  flex-direction: column;
+  background: #776e65;
+  padding-bottom: 75rpx;
+}
+
+.user_name {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin: 0 auto;
+  margin-top: 35rpx;
+  color: white;
+  font-size: 45rpx;
+}
+
+.tongbu {
+  margin-top: 40rpx;
+  text-align: center;
+}
+
+.version {
+  margin-top: 20rpx;
+  font-size: 24rpx;
+  color: #8a827a;
+}
+
+.help {
+  margin-top: 40rpx;
+}
+
+.mie {
+  font-size: 55rpx;
+}
+
+.shangchuan, .xiazai {
+  color: #4c2c1d;
+}

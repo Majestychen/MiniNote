@@ -1,0 +1,19 @@
+
+<view class="mine_box">
+  <view class="user_show">
+    <image mode="aspectFill" src="{{userInfo.avatarUrl}}"></image>
+    <text>{{userInfo.nickName}}</text>
+  </view>
+  <view class="operations">  
+    <!--<navigator url="../export/index" hover-class="navigator-hover">导出数据</navigator>-->
+    <navigator url="../feedback/index" hover-class="navigator-hover">反馈</navigator>
+    <!--<view bindtap="shangchuan">打赏赞助</view>-->
+    <navigator url="../help/index" hover-class="navigator-hover">文档</navigator>
+    <view bindtap="q_aboutus">关于</view>
+    <!--<navigator url="../newList/newList" class="unread">
+      <view wx-if="{{remindscount>0}}"></view>消息
+    </navigator>-->
+    <!--<navigator url="../advise/advise">反馈建议</navigator>-->
+    <navigator url="../update/index" class='version' hover-class="navigator-hover">{{version}}</navigator>
+  </view>
+ </view>

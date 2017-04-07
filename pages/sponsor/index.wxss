@@ -1,0 +1,120 @@
+/**index.wxss**/
+
+page {
+      background: #fff;
+}
+
+.container {
+    background: #fff;
+}
+
+.userinfo {
+  flex-direction: column;
+  display: block;
+  position: relative;
+  float: left;
+}
+
+.info{
+  font-size: 30rpx;
+}
+.box-wxpay{ 
+    margin: 0 auto;
+    width: 320px;
+    text-align: center;
+    font-size: 12px;
+    margin-top:-26px;
+
+}
+.userinfo-avatar {
+  width: 130rpx;
+  height: 130rpx;
+  /*margin: 20rpx;*/
+  border-radius: 50%;
+  margin-left: 50rpx;
+}
+.text-center{
+  text-align: center;
+}
+
+.mg-10{
+  margin-top: 10px;
+}
+.pay-list{
+  width: 250px;
+  display: flex;
+  margin-top: 10px;
+  justify-content: space-between;
+}
+
+.pay-list text{
+}
+
+.top {
+  padding-top: 10px;
+  text-align: center;
+}
+
+.top text {
+  font-size: 20px;
+}
+
+.fenlei{
+  padding: 15px;
+  font-size: 30rpx;
+}
+
+.fenlei view{
+  padding-left: 10px; 
+}
+
+.userinfo-nickname {
+  color: #aaa;
+}
+
+.user_image {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  margin: 0 auto;
+  margin-top: 20rpx;
+}
+
+.top_img {
+  padding-top: 55rpx;
+  display: flex;
+  flex-direction: column;
+  background: #776e65;
+  padding-bottom: 75rpx;
+}
+
+.user_name {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin: 0 auto;
+  margin-top: 35rpx;
+  color: white;
+  font-size: 45rpx;
+}
+
+.tongbu {
+  margin-top: 40rpx;
+  text-align: center;
+}
+
+.version {
+  margin-top: 20rpx;
+  font-size: 24rpx;
+  color: #8a827a;
+}
+
+.help {
+  margin-top: 40rpx;
+}
+
+.mie {
+  font-size: 55rpx;
+}
+
+.shangchuan, .xiazai {
+  color: #4c2c1d;
+}

@@ -1,2 +1,3 @@
-# MiniNote
-Wechat mini app-极简笔记
+# 极简笔记
+[极简笔记](http://9.cn/app/1022/ "极简笔记")
+

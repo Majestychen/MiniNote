@@ -1,0 +1,110 @@
+<view class="bigview">
+  <view class="q_top">
+
+    <!--搜索功能-->
+    <view class="q_search">
+      <input placeholder="搜..." class="q_sousuo_top" bindinput="q_sousuo_bindinput" name="sousuo_q_suosoukuang_text" placeholder-class="q_sousuo" value="{{q_sousuo_neirong}}" />
+    </view>
+  </view>
+
+  <!--搜索结束-->
+  <view class="container2" bindscrolltoupper="scroll_top" bindscroll="scroll_bind" scroll-y="true">
+
+    <!--笔记列表-->
+
+    <!--当没有比及时-->
+    <view class="col2" wx:key="cid" wx:if="{{diaryList.length<1}}">
+      <view class='item notepad'>
+        <view class='content'>
+          <view class='txt'  catchlongtap='col_long_temp'>
+            <text>点击右侧的快捷按钮||| 可以删除 ^∇^\n</text>
+            <text class="note-date">欢迎使用微信小程序 ^_^</text>
+          </view>
+          <!--<view class="{{cehua}}" data-index="{{index}}" >呱呱</view>-->
+          <image class="q_diandian" id="{{item.objectId}}" bindtap="col_long_temp" src="http://mininote-1251903635.costj.myqcloud.com/q_diandian_new.png">
+          </image>
+        </view>        
+      </view>      
+    </view>
+
+
+        <view class="col2" wx:key="cid" wx:if="{{diaryList.length<1}}">
+      <view class='item notepad '>
+        <view class='content'>
+          <view class='txt'  catchlongtap='col_long_temp'>
+            <text>长按可弹出快捷菜单 😄\n</text>
+            <text class="note-date">欢迎使用微信小程序 ^_^</text>
+          </view>
+          <!--<view class="{{cehua}}" data-index="{{index}}" >呱呱</view>-->
+          <image class="q_diandian" id="{{item.objectId}}" bindtap="col_long_temp" src="http://mininote-1251903635.costj.myqcloud.com/q_diandian_new.png">
+          </image>
+        </view>        
+      </view>      
+    </view>
+
+
+    <view class="col2" wx:key="cid" wx:if="{{diaryList.length<1}}">
+      <view class='item notepad '>
+        <view class='content'>
+          <view class='txt'  catchlongtap='col_long_temp'>
+            <text>右下方的快捷按钮可以新建或同步 😙\n</text>
+            <text class="note-date">欢迎使用微信小程序 ^_^</text>
+          </view>
+
+          <!--<view class="{{cehua}}" data-index="{{index}}" >呱呱</view>-->
+          <image class="q_diandian" id="{{item.objectId}}" bindtap="col_long_temp" src="http://mininote-1251903635.costj.myqcloud.com/q_diandian_new.png">
+          </image>
+        </view>        
+      </view>      
+    </view>
+
+    <view class="col2" wx:key="cid" wx:if="{{diaryList.length<1}}">
+      <view class='item notepad '>
+        <view class='content' >
+          <view class='txt'  catchlongtap='col_long_temp'>
+            <text>有任何问题欢迎反馈 👀\n</text>
+            <text class="note-date">在'我的'→'反馈'中可发送反馈意见 ^_^</text>
+          </view>
+
+          <!--<view class="{{cehua}}" data-index="{{index}}" >呱呱</view>-->
+          <image class="q_diandian" id="{{item.objectId}}" bindtap="col_long_temp" src="http://mininote-1251903635.costj.myqcloud.com/q_diandian_new.png">
+          </image>
+        </view>        
+      </view>      
+    </view>
+
+    <!--当没有比及时内容结束-->
+
+    <!--笔记列表内容开始-->
+    <view class="col2" wx:for="{{diaryList}}" wx:key="cid">
+      <view class='item notepad }'>
+        <view class='content' data-index="{{index}}" id="{{item.objectId}}" catchtap="clickNotelist" >
+          <view id="{{item.objectId}}" catchlongtap='noteHoverStart' >
+            <view class='txt'>
+              <text>{{item.note_title}}\n</text>
+              <text class="note-date" >{{item.note_date}}</text>
+            </view>
+          </view>
+          <image class="q_diandian" id="{{item.objectId}}" catchtap="col_long" src="http://mininote-1251903635.costj.myqcloud.com/q_diandian_new.png">
+          </image>
+        </view>
+      </view>
+    </view>
+
+    <!--内容结束-->
+  </view>
+</view>
+
+<!--右下角 两个按钮-->
+<view class="bottom-btn">
+
+  <!--同步按钮-->
+  <view class="bottom_bar2" >
+    <image src="{{bottom_bar2}}" bindtap="tongbu_auto" bindtouchstart='btnHover' bindtouchend='btnHoverend'></image>
+  </view>
+
+  <!--创建笔记按钮-->
+  <view class="bottom_bar3">
+    <image src="{{bottom_bar3}}" bindtap="q_biji"  bindtouchstart='btnHover2' bindtouchend='btnHoverend2'></image>
+  </view>
+</view>

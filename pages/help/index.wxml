@@ -1,0 +1,15 @@
+<!--index.wxml-->
+<view class="container">
+  <scroll-view scroll-y="true"> 
+    <!--版本开始-->
+    <view class="fenlei" wx:for="{{diaryList}}" wx:key="999999" >
+      <text>{{item.title}}</text>
+      <view>
+        <text>{{item.content1}}</text>
+        <text wx:if="{{item.content2.length>0}}">\n{{item.content2}}</text>
+        <text wx:if="{{item.content3.length>0}}">\n{{item.content3}}</text>
+      </view>
+    </view>
+    <!--版本结束-->  
+  </scroll-view>
+</view>

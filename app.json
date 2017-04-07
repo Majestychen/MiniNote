@@ -1,0 +1,49 @@
+{
+  "pages":[
+    "pages/note/index",
+    "pages/feedback/index",
+    "pages/mine/index",     
+    "pages/create/index",   
+    "pages/edit/index", 
+    "pages/help/index",
+    "pages/sponsor/index",
+    "pages/update/index", 
+    "pages/logs/logs"
+  ],
+   "networkTimeout": {
+    "request": 16000,
+    "downloadFile": 16000
+  },
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#b69876",
+    "navigationBarTitleText": "",
+    "navigationBarTextStyle":"white",
+    "enablePullDownRefresh": "true"
+  },
+  "tabBar": { 
+     "enablePullDownRefresh": true,
+    "selectedColor": "#504947",
+    "backgroundColor": "#fafafa",   
+    "position":"bottom",
+    "color": "#858585",
+    
+    "list": [{
+      "pagePath": "pages/note/index",
+      "text": "列表",
+      "iconPath": "images/mark.png",
+      "selectedIconPath": "images/markHL.png"
+    },
+    {      
+      "pagePath": "pages/mine/index",
+      "text": "我的",
+      "iconPath": "images/mine.png",
+      "selectedIconPath": "images/mineHL.png"
+    }
+    
+     
+    ]
+    
+  }
+  
+}
