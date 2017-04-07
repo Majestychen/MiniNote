@@ -44,6 +44,8 @@ function submit() {
 							key: 'all_note_data_001',
 							data: over.temp_consle,
 							success: function(res) {
+								over.input_content = '';
+								over.input_title = '';
 								wx.navigateBack({
 									url: '../note/index'
 								})
@@ -143,9 +145,7 @@ Page({
 	},
 
 	onUnload: function() {
-
-		over.input_content = '';
-		over.input_title = '';
+		submit();
 	},
 
 	btnHover: function() {
