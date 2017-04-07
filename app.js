@@ -6,7 +6,15 @@ var version = '0.2.0';
 // 自定义公共方法
 var gong = {};
 
+var key = require('utils/key.js');
 
+// start
+// 配置Bmob密钥
+Bmob.initialize(key.getKey('bmob1'), key.getKey('bmob2'));
+// 小程序 Id 密钥
+var appId = key.getKey('appId');
+var appSecret = key.getKey('appSecret');
+// end
 
 // 全局方法App
 App({
@@ -129,11 +137,11 @@ App({
 		var newtime3 = myDate2.getFullYear() + '年' + (1 + myDate2.getMonth()) + '月' + myDate2.getDate() + '日 ' + now_call_hour + '' + myDate2.getHours() + ':' + myDate2.getMinutes();
 		return newtime3;
 	},
-	
-	getAppId:function(){
+
+	getAppId: function() {
 		return appId;
-	},	
-	getappSecret:function(){
+	},
+	getappSecret: function() {
 		return appSecret;
 	},
 })
