@@ -2,7 +2,7 @@
 // 初始化Bmob
 var Bmob = require('utils/bmob.js');
 // 小程序 版本号定义
-var version = '0.2.0';
+var version = '0.2.1';
 // 自定义公共方法
 var gong = {};
 var getKey = require('utils/key.js');
