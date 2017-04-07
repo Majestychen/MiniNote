@@ -78,7 +78,6 @@ function longClickMenu(e) {
 													});
 												}
 											})
-
 										}
 									}
 								});
@@ -173,6 +172,7 @@ Page({
 	},
 
 	onShow: function() {
+
 		wx.setNavigationBarTitle({
 			title: '',
 		})
@@ -251,7 +251,12 @@ Page({
 
 			}
 		})
-
+		var reTime = setInterval(function() {
+			that.tongbu_auto('noShow');
+		}, 300);
+		setTimeout(function() {
+			clearInterval(reTime);
+		}, 1800);
 		// onShow结束
 	},
 	// 排列方式
@@ -409,13 +414,15 @@ Page({
 	//  笔记列表上方搜索功能结束
 
 	// 手动同步
-	tongbu_auto: function() {
-		wx.showToast({
-			title: '正在同步',
-			icon: 'loading',
-			duration: 9999
-		});
-
+	tongbu_auto: function(show) {
+		if(show == 'noShow') {
+		} else {
+			wx.showToast({
+				title: '正在同步',
+				icon: 'loading',
+				duration: 9999
+			});
+		}
 		var Diary_note = Bmob.Object.extend("user_note");
 		var query = new Bmob.Query(Diary_note);
 		// 查询当前用户数据
