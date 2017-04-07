@@ -6,7 +6,7 @@ var over = {
 	objectId: 0,
 	input_title: '',
 	input_content: '',
-	editData: {},
+	editData: [],
 	arrayId: -1,
 };
 
@@ -30,12 +30,8 @@ function setEditData() {
 				}
 			}
 		},
-		fail: function() {
-			// fail
-		},
-		complete: function() {
-			// complete
-		}
+		fail: function() {},
+		complete: function() {}
 	});
 };
 
@@ -105,8 +101,7 @@ function justSave() {
 					wx.setStorage({
 						key: 'all_note_data_001',
 						data: over.editData,
-						success: function(res) {
-						},
+						success: function(res) {},
 						fail: function() {
 							// fail
 						},
