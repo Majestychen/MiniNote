@@ -11,6 +11,95 @@ var all_data;
 var over = {
 	doubleA4: false,
 };
+
+function longClickMenu(e) {
+	var objectId = 0;
+	var guagua_ni_hao_ya_xixi = '';
+	if(e.target.id) {
+		objectId = e.target.id;
+	} else {
+		objectId = e.currentTarget.id;
+	}
+	wx.showActionSheet({
+		itemList: ['查看', '删除'],
+		success: function(res) {
+			if(res.tapIndex == 0) {
+				wx.navigateTo({
+					url: '../edit/index?id=' + objectId
+				})
+			}
+			if(res.tapIndex == 1) {
+				wx.getStorage({
+					key: 'all_note_data_001',
+					success: function(res) {
+						var temp_consle = res.data;
+						for(var i = 0; i < temp_consle.length; i++) {
+							if(temp_consle[i].objectId == e.target.id) {
+								guagua_ni_hao_ya_xixi = temp_consle[i].note_title;
+								temp_consle.splice(i, 1);
+								wx.setStorage({
+									key: 'all_note_data_001',
+									data: temp_consle,
+									success: function(res) {
+
+										that.onShow();
+									},
+									fail: function() {
+										// fail
+									},
+									complete: function() {
+										// complete
+									}
+								})
+								wx.showModal({
+									title: '确定删除?',
+									content: '标题:' + guagua_ni_hao_ya_xixi,
+									success: function(res) {
+										if(res.confirm) {
+											wx.getStorage({
+												key: 'user_openid',
+												success: function(res) {
+													var Diary_note = Bmob.Object.extend("user_note");
+													var query = new Bmob.Query(Diary_note);
+													query.equalTo("objectId", objectId);
+													//  数据库删除操作
+													query.get(objectId, {
+														success: function(object) {
+															object.destroy({
+																success: function(deleteObject) {
+																	that.onShow();
+																},
+																error: function(object, error) {
+																	that.onShow();
+																}
+															});
+														},
+														error: function(object, error) {}
+													});
+												}
+											})
+
+										}
+									}
+								});
+							}
+						}
+
+					},
+					fail: function(res) {
+						// fail
+					},
+					complete: function(res) {
+						// complete
+					}
+				})
+			}
+			over.doubleA4 = false;
+		},
+		fail: function(res) {}
+	});
+
+};
 Page({
 	data: {
 		col: "col2",
@@ -247,100 +336,12 @@ Page({
 
 	noteHoverStart: function(e) {
 		over.doubleA4 = true;
-		that.col_long(e);
+		longClickMenu(e);
 	},
 
 	//  长按笔记列表/ 点击笔记右侧小按钮 事件
 	col_long: function(e) {
-		var objectId = 0;
-		var guagua_ni_hao_ya_xixi = '';
-		if(e.target.id) {
-			objectId = e.target.id;
-		} else {
-			if(e.currentTarget.id) {
-				objectId = e.currentTarget.id;
-			}
-		}
-		wx.showActionSheet({
-			itemList: ['查看', '删除'],
-			success: function(res) {
-				if(res.tapIndex == 0) {
-					wx.navigateTo({
-						url: '../edit/index?id=' + objectId
-					})
-				}
-
-				if(res.tapIndex == 1) {
-					wx.getStorage({
-						key: 'all_note_data_001',
-						success: function(res) {
-							var temp_consle = res.data;
-							for(var i = 0; i < temp_consle.length; i++) {
-								if(temp_consle[i].objectId == e.target.id) {
-									guagua_ni_hao_ya_xixi = temp_consle[i].note_title;
-									temp_consle.splice(i, 1);
-									wx.setStorage({
-										key: 'all_note_data_001',
-										data: temp_consle,
-										success: function(res) {
-
-											that.onShow();
-										},
-										fail: function() {
-											// fail
-										},
-										complete: function() {
-											// complete
-										}
-									})
-									wx.showModal({
-										title: '确定删除?',
-										content: '标题:' + guagua_ni_hao_ya_xixi,
-										success: function(res) {
-											if(res.confirm) {
-												wx.getStorage({
-													key: 'user_openid',
-													success: function(res) {
-														var Diary_note = Bmob.Object.extend("user_note");
-														var query = new Bmob.Query(Diary_note);
-														query.equalTo("objectId", objectId);
-														//  数据库删除操作
-														query.get(objectId, {
-															success: function(object) {
-																object.destroy({
-																	success: function(deleteObject) {
-																		that.onShow();
-																	},
-																	error: function(object, error) {
-																		that.onShow();
-																	}
-																});
-															},
-															error: function(object, error) {}
-														});
-													}
-												})
-
-											}
-										}
-									});
-								}
-							}
-
-						},
-						fail: function(res) {
-							// fail
-						},
-						complete: function(res) {
-							// complete
-						}
-					})
-				}
-				over.doubleA4 = false;
-			},
-			fail: function(res) {}
-		});
-
+		longClickMenu(e);
 	},
 
 	// 进入笔记列表的事件
