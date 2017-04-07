@@ -84,6 +84,49 @@ function goSave() {
 		}
 	});
 };
+
+function justSave() {
+	var Diary = BmobEdit.Object.extend("user_note");
+	var query = new BmobEdit.Query(Diary);
+	query.get(over.objectId, {
+		success: function(result) {
+			if(over.input_title != '') {
+				result.set("note_title", over.input_title);
+				over.editData[over.arrayId].input_title = over.input_title;
+			}
+			if(over.input_content || over.input_content == '') {
+				result.set("note_content", over.input_content);
+				over.editData[over.arrayId].input_content = over.input_content;
+			}
+			result.set("note_date", app.getNowTimeformat());
+			over.editData[over.arrayId].note_date = app.getNowTimeformat();
+			result.save({
+				success: function(res) {
+					wx.setStorage({
+						key: 'all_note_data_001',
+						data: over.editData,
+						success: function(res) {
+						},
+						fail: function() {
+							// fail
+						},
+						complete: function() {
+							// complete
+						}
+					});
+				}
+			});
+		},
+		error: function(object, error) {
+			console.log(error)
+			wx.showToast({
+				title: '网络故障,请重试',
+				icon: 'loading',
+				duration: 600
+			})
+		}
+	});
+};
 Page({
 	data: {
 		sendBtn: 'sendBtn',
@@ -110,7 +153,10 @@ Page({
 		wx.showNavigationBarLoading();
 		setEditData()
 	},
-	onReady: function() { setEditData(); },
+
+	onReady: function() {
+		setEditData();
+	},
 
 	zhengzai_input: function(e) {
 		over.input_content = e.detail.value;
@@ -121,9 +167,10 @@ Page({
 		wx.setNavigationBarTitle({
 			title: over.input_title,
 		})
+		justSave();
 	},
 
-	// 分享
+	// 笔记分享功能
 	/*
 	onShareAppMessage: function() {
 		return {
@@ -150,8 +197,8 @@ Page({
 
 	// 页面卸载
 	onUnload: function() {
+
 	},
 
-	onHide: function() {
-	},
+	onHide: function() {},
 });
