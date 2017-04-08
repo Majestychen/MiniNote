@@ -48,7 +48,7 @@ function goSubmit() {
 							data: over.temp_consle,
 							success: function(res) {
 								wx.navigateBack({
-									delta: 2
+									delta: 1
 								})
 							},
 							fail: function() {
