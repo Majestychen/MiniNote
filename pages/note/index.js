@@ -375,6 +375,7 @@ Page({
 				query.equalTo("user_openid_wechat", res.data);
 				query.select("note_title");
 				query.select("note_date");
+				query.descending("updatedAt");
 				query.limit(1000);
 				query.find({
 					success: function(results) {
