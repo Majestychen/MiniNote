@@ -16,7 +16,7 @@ var over = {
 	editFirst: true,
 };
 
-function goSubmit() {
+function goSubmit(T) {
 	if(over.input_title != '') {
 		var Diary_q_1 = Bmob.Object.extend("user_note");
 		var diary_q_1 = new Diary_q_1();
@@ -47,9 +47,14 @@ function goSubmit() {
 							key: 'all_note_data_001',
 							data: over.temp_consle,
 							success: function(res) {
-								wx.navigateBack({
-									delta: 1
+								if (T) {
+									wx.navigateBack({
+									url: '../note/index'
 								})
+								} else{
+									
+								}
+								
 							},
 							fail: function() {
 								// fail
@@ -116,7 +121,9 @@ Page({
 	},
 
 	onShow: function() {
-		over.editFirst=true;
+		over.input_content='';
+		over.input_title='';
+		over.editFirst = true;
 		wx.setNavigationBarTitle({
 			title: '',
 		})
@@ -140,7 +147,7 @@ Page({
 
 	submit: function(e) {
 		if(over.editFirst) {
-			goSubmit();
+			goSubmit(1);
 			over.editFirst = false;
 		}
 	},
@@ -154,7 +161,7 @@ Page({
 	onUnload: function() {
 		if(over.input_content || over.input_title) {
 			if(over.editFirst) {
-				goSubmit();
+				goSubmit(0);
 			}
 		}
 	},
