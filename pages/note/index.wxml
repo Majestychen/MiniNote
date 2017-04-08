@@ -13,7 +13,7 @@
     <!--笔记列表-->
 
     <!--当没有比及时-->
-    <view class="col2" wx:key="cid" wx:if="{{diaryList.length<1}}">
+    <view class="col2" wx:key="cid" wx:if="{{diaryList.length<1 && diaryListSwitch}}">
       <view class='item notepad'>
         <view class='content'>
           <view class='txt'  catchlongtap='col_long_temp'>
@@ -28,7 +28,7 @@
     </view>
 
 
-        <view class="col2" wx:key="cid" wx:if="{{diaryList.length<1}}">
+        <view class="col2" wx:key="cid" wx:if="{{diaryList.length<1 && diaryListSwitch}}">
       <view class='item notepad '>
         <view class='content'>
           <view class='txt'  catchlongtap='col_long_temp'>
@@ -43,7 +43,7 @@
     </view>
 
 
-    <view class="col2" wx:key="cid" wx:if="{{diaryList.length<1}}">
+    <view class="col2" wx:key="cid" wx:if="{{diaryList.length<1 && diaryListSwitch}}">
       <view class='item notepad '>
         <view class='content'>
           <view class='txt'  catchlongtap='col_long_temp'>
@@ -58,7 +58,7 @@
       </view>      
     </view>
 
-    <view class="col2" wx:key="cid" wx:if="{{diaryList.length<1}}">
+    <view class="col2" wx:key="cid" wx:if="{{diaryList.length<1 && diaryListSwitch}}">
       <view class='item notepad '>
         <view class='content' >
           <view class='txt'  catchlongtap='col_long_temp'>

@@ -115,6 +115,7 @@ Page({
 		q_sousuo_neirong: "",
 		bottom_bar2: 'http://mininote-1251903635.costj.myqcloud.com/tongbu.png',
 		bottom_bar3: 'http://mininote-1251903635.costj.myqcloud.com/chuangjian.png',
+		diaryListSwitch:true,
 	},
 
 	onPullDownRefresh: function() {
@@ -377,19 +378,25 @@ Page({
 				query.limit(1000);
 				query.find({
 					success: function(results) {
-
 						var temp = [];
 						var temp2 = [];
+						var tempSwicth = true;
 						// 循环处理查询到的数据
 						for(var i = 0; i < results.length; i++) {
 							// 
 							if((results[i].attributes.note_title).indexOf(zhengzaishurudeneirong.detail.value) >= 0) {
 								temp.push(results[i]);
+								tempSwicth = false;
 							}
 							that.setData({
 								diaryList: temp
 							})
 						}
+						if(temp.length==0 && zhengzaishurudeneirong.detail.value!='') {
+							that.setData({
+								diaryListSwitch:false
+							})
+						} 
 					},
 
 					error: function(error) {
@@ -415,8 +422,7 @@ Page({
 
 	// 手动同步
 	tongbu_auto: function(show) {
-		if(show == 'noShow') {
-		} else {
+		if(show == 'noShow') {} else {
 			wx.showToast({
 				title: '正在同步',
 				icon: 'loading',
