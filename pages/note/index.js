@@ -36,21 +36,6 @@ function longClickMenu(e) {
 						for(var i = 0; i < temp_consle.length; i++) {
 							if(temp_consle[i].objectId == objectId) {
 								guagua_ni_hao_ya_xixi = temp_consle[i].note_title;
-								temp_consle.splice(i, 1);
-								wx.setStorage({
-									key: 'all_note_data_001',
-									data: temp_consle,
-									success: function(res) {
-
-										that.onShow();
-									},
-									fail: function() {
-										// fail
-									},
-									complete: function() {
-										// complete
-									}
-								})
 								wx.showModal({
 									title: '确定删除?',
 									content: '标题:' + guagua_ni_hao_ya_xixi,
@@ -67,7 +52,20 @@ function longClickMenu(e) {
 														success: function(object) {
 															object.destroy({
 																success: function(deleteObject) {
-																	that.onShow();
+																	temp_consle.splice(i, 1);
+																	wx.setStorage({
+																		key: 'all_note_data_001',
+																		data: temp_consle,
+																		success: function(res) {
+																			that.onShow();
+																		},
+																		fail: function() {
+																			// fail
+																		},
+																		complete: function() {
+																			// complete
+																		}
+																	})
 																},
 																error: function(object, error) {
 																	that.onShow();
@@ -115,7 +113,7 @@ Page({
 		q_sousuo_neirong: "",
 		bottom_bar2: 'http://mininote-1251903635.costj.myqcloud.com/tongbu.png',
 		bottom_bar3: 'http://mininote-1251903635.costj.myqcloud.com/chuangjian.png',
-		diaryListSwitch:true,
+		diaryListSwitch: true,
 	},
 
 	onPullDownRefresh: function() {
@@ -393,11 +391,11 @@ Page({
 								diaryList: temp
 							})
 						}
-						if(temp.length==0 && zhengzaishurudeneirong.detail.value!='') {
+						if(temp.length == 0 && zhengzaishurudeneirong.detail.value != '') {
 							that.setData({
-								diaryListSwitch:false
+								diaryListSwitch: false
 							})
-						} 
+						}
 					},
 
 					error: function(error) {
