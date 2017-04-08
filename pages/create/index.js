@@ -16,32 +16,6 @@ var over = {
 	editFirst: true,
 };
 
-function setEditData() {
-	wx.getStorage({
-		key: 'all_note_data_001',
-		success: function(res) {
-			over.editData = res.data;
-			for(var i = 0; i < res.data.length; i++) {
-				if(res.data[i].objectId === over.objectId) {
-					over.arrayId = i;
-					that.setData({
-						input_conten: over.editData[i].note_content,
-					});
-					wx.setNavigationBarTitle({
-						title: over.editData[i].note_title,
-					})
-					wx.hideNavigationBarLoading();
-					EditSave();
-				} else {
-
-				}
-			}
-		},
-		fail: function() {},
-		complete: function() {}
-	});
-};
-
 function goSubmit() {
 	if(over.input_title != '') {
 		var Diary_q_1 = Bmob.Object.extend("user_note");
@@ -60,7 +34,6 @@ function goSubmit() {
 							success: function(res) {
 								over.temp_consle = res.data;
 								over.temp_consle.push({ note_title: over.input_title, note_date: app.getNowTimeformat(), note_content: over.input_content });
-								over.objectId = result.id;
 							},
 							fail: function(res) {
 								// fail
@@ -73,7 +46,11 @@ function goSubmit() {
 						wx.setStorage({
 							key: 'all_note_data_001',
 							data: over.temp_consle,
-							success: function(res) {},
+							success: function(res) {
+								wx.navigateBack({
+									delta: 2
+								})
+							},
 							fail: function() {
 								// fail
 							},
@@ -83,6 +60,7 @@ function goSubmit() {
 						})
 					},
 					error: function(result, error) {
+						over.editFirst = true;
 						wx.showToast({
 							title: '网络故障,请重试',
 							icon: 'loading',
@@ -101,122 +79,6 @@ function goSubmit() {
 		})
 
 	}
-
-	that.setData({
-		sendBtn: 'sendBtnHover',
-	});
-	setTimeout(function() {
-		that.setData({
-			sendBtn: 'sendBtn',
-		});
-	}, 100);
-};
-
-function save() {
-	if(over.input_title != '') {
-		var Diary_q_1 = Bmob.Object.extend("user_note");
-		var diary_q_1 = new Diary_q_1();
-		wx.getStorage({
-			key: 'user_openid',
-			success: function(res) {
-				diary_q_1.set("user_openid_wechat", res.data);
-				diary_q_1.set("note_title", over.input_title);
-				diary_q_1.set("note_date", app.getNowTimeformat());
-				diary_q_1.set("note_content", over.input_content);
-				diary_q_1.save(null, {
-					success: function(result) {
-						wx.getStorage({
-							key: 'all_note_data_001',
-							success: function(res) {
-								over.temp_consle = res.data;
-								over.temp_consle.push({ note_title: over.input_title, note_date: app.getNowTimeformat(), note_content: over.input_content });
-								over.objectId = result.id;
-							},
-							fail: function(res) {
-								// fail
-							},
-							complete: function(res) {
-								// complete
-							}
-						})
-
-						wx.setStorage({
-							key: 'all_note_data_001',
-							data: over.temp_consle,
-							success: function(res) {},
-							fail: function() {
-								// fail
-							},
-							complete: function() {
-								// complete
-							}
-						})
-					},
-					error: function(result, error) {
-						wx.showToast({
-							title: '网络故障,请重试',
-							icon: 'loading',
-							duration: 666
-						})
-					}
-				});
-
-			}
-		})
-	} else {}
-
-	that.setData({
-		sendBtn: 'sendBtnHover',
-	});
-	setTimeout(function() {
-		that.setData({
-			sendBtn: 'sendBtn',
-		});
-	}, 100);
-};
-
-function EditSave() {
-	if(over.input_title != '') {
-		var Diary = Bmob.Object.extend("user_note");
-		var query = new Bmob.Query(Diary);
-		query.get(over.objectId, {
-			success: function(result) {
-				if(over.input_title != '') {
-					result.set("note_title", over.input_title);
-					over.editData[over.arrayId].input_title = over.input_title;
-				}
-				if(over.input_content || over.input_content == '') {
-					result.set("note_content", over.input_content);
-					over.editData[over.arrayId].input_content = over.input_content;
-				}
-				result.set("note_date", app.getNowTimeformat());
-				over.editData[over.arrayId].note_date = app.getNowTimeformat();
-				result.save({
-					success: function(res) {
-						wx.setStorage({
-							key: 'all_note_data_001',
-							data: over.editData,
-							success: function(res) {},
-							fail: function() {
-								// fail
-							},
-							complete: function() {
-								// complete
-							}
-						});
-					}
-				});
-			},
-			error: function(object, error) {
-				console.log(error)
-				wx.showToast({
-					title: '网络故障,请重试',
-					icon: 'loading',
-					duration: 600
-				})
-			}
-		});
-	} else {}
 
 	that.setData({
 		sendBtn: 'sendBtnHover',
@@ -254,6 +116,7 @@ Page({
 	},
 
 	onShow: function() {
+		over.editFirst=true;
 		wx.setNavigationBarTitle({
 			title: '',
 		})
@@ -272,16 +135,14 @@ Page({
 		wx.setNavigationBarTitle({
 			title: over.input_title,
 		})
-		if(over.editFirst) {
-			save();
-			over.editFirst = false;
-		} else {
-			setEditData();
-		}
+
 	},
 
 	submit: function(e) {
-		goSubmit();
+		if(over.editFirst) {
+			goSubmit();
+			over.editFirst = false;
+		}
 	},
 
 	cancle: function() {
@@ -292,9 +153,9 @@ Page({
 
 	onUnload: function() {
 		if(over.input_content || over.input_title) {
-			goSubmit();
-		} else {
-
+			if(over.editFirst) {
+				goSubmit();
+			}
 		}
 	},
 
