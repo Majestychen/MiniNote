@@ -232,18 +232,7 @@ Page({
 							})
 						},
 						error: function(error) {
-
-							wx.showModal({
-								title: '服务器开小差了',
-								content: '是否重试',
-								confirmText: '重试',
-								success: function(res) {
-									if(res.confirm) {
-										// 如果用户点击了确认按钮
-										that.onShow();
-									}
-								}
-							});
+							that.onShow();
 						}
 					});
 				}
@@ -448,7 +437,9 @@ Page({
 					that.setData({
 						diaryList: temp,
 					});
-					setTimeout(function() { wx.hideToast() }, 700)
+					setTimeout(function() {
+						wx.hideToast()
+					}, 700)
 
 				},
 				error: function(error) {}

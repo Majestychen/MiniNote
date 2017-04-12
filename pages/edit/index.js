@@ -176,8 +176,12 @@ Page({
 	*/
 
 	submit: function(e) {
-		if(over.input_title != '' || over.input_content!='') {
+		if(over.input_title != '' || over.input_content != '') {
 			goSave();
+		} else {
+			wx.navigateBack({
+				delta: 1
+			})
 		}
 	},
 
