@@ -176,7 +176,9 @@ Page({
 	*/
 
 	submit: function(e) {
-		goSave();
+		if(over.input_title != '' || over.input_content!='') {
+			goSave();
+		}
 	},
 
 	btnHover: function() {
