@@ -124,7 +124,7 @@ Page(
                         }, function (error) {
                         });
                          // 状态
-                        diary_q_1.set("status", name);
+                        diary_q_1.set("status", '有图'+name);
                     }       
 
                         // 用户的联系方式

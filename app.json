@@ -7,8 +7,7 @@
     "pages/edit/index", 
     "pages/help/index",
     "pages/sponsor/index",
-    "pages/update/index", 
-    "pages/logs/logs"
+    "pages/update/index"
   ],
    "networkTimeout": {
     "request": 16000,
@@ -31,17 +30,15 @@
     "list": [{
       "pagePath": "pages/note/index",
       "text": "列表",
-      "iconPath": "images/mark.png",
-      "selectedIconPath": "images/markHL.png"
+      "iconPath": "res/images/mark.png",
+      "selectedIconPath": "res/images/markHL.png"
     },
     {      
       "pagePath": "pages/mine/index",
       "text": "我的",
-      "iconPath": "images/mine.png",
-      "selectedIconPath": "images/mineHL.png"
+      "iconPath": "res/images/mine.png",
+      "selectedIconPath": "res/images/mineHL.png"
     }
-    
-     
     ]
     
   }

@@ -37,7 +37,7 @@ page {
   font-size: 30rpx;
 }
 .sendBtn {
-  width: 80%;
+  width: 60%;
   margin: 0 auto;
   background: #b69876;
   margin-top: 10px;

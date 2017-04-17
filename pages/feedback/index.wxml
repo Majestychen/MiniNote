@@ -20,8 +20,8 @@
 
     <!--联系方式-->
     <view class='title' bindtap="auto_function">
-      <input name="title" type="text" bindblur="q_title_input" maxlength='32' placeholder="(选填)" value="" />
+      <input name="title" type="text" bindblur="q_title_input" maxlength='32' placeholder="(选填,用于接受反馈结果)" value="" />
     </view>
-    <view class='sendBtn' bindtap="submit">好</view>
+    <view class='sendBtn' bindtap="submit">发送</view>
   </view>
 </view>
