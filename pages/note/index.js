@@ -108,16 +108,7 @@ function compareNoteData(results) {
 	})
 };
 
-function init() {
-	wx.getSystemInfo({
-		success: function(res) {
-			var tempHeight = res.windowHeight;
-			tempHeight = tempHeight + 20;
-			that.setData({
-				texth: tempHeight,
-			});
-		}
-	})
+function requestNoteData() {
 	wx.getStorage({
 		key: 'user_openid',
 		success: function(openId) {
@@ -137,6 +128,10 @@ function init() {
 					that.setData({
 						diaryList: results,
 					});
+					noteData = results;
+					setTimeout(function() {
+						wx.hideToast()
+					}, 700)
 					compareNoteData(results);
 				},
 				error: function(error) {
@@ -145,6 +140,19 @@ function init() {
 			});
 		}
 	})
+};
+
+function init() {
+	wx.getSystemInfo({
+		success: function(res) {
+			var tempHeight = res.windowHeight;
+			tempHeight = tempHeight-40;
+			that.setData({
+				scrollHeight: tempHeight,
+			});
+		}
+	})
+	requestNoteData();
 };
 
 Page({
@@ -170,7 +178,7 @@ Page({
 					wx.showToast({
 						title: '该提示将在新建后自动删除',
 						icon: 'success',
-						duration: 4666
+						duration: 3000
 					})
 				}
 			},
@@ -179,14 +187,15 @@ Page({
 	},
 
 	clickNotelist: function(e) {
+		var objectId = e.target.id ? e.target.id : e.currentTarget.id;
 		if(!noteVillage[1]) {
 			wx.navigateTo({
-				url: '../edit/index?id=' + e.currentTarget.id
+				url: '../edit/index?id=' + objectId
 			})
 		}
 	},
 
-	noteHoverStart: function(e) {
+	noteListLongPress: function(e) {
 		noteVillage[1] = true;
 		longClickMenu(e);
 	},
@@ -194,66 +203,39 @@ Page({
 		longClickMenu(e);
 	},
 
-	onEditItem: function(e) {
-		var objectId = e.target.id ? e.target.id : e.currentTarget.id;
-		wx.navigateTo({
-			url: '../edit/index?id=' + objectId
-		})
-	},
-
-	search: function(zhengzaishurudeneirong) {
-		wx.getStorage({
-			key: 'user_openid',
-			success: function(res) {
-				var Diary_note = Bmob.Object.extend("user_note");
-				var query = new Bmob.Query(Diary_note);
-				// 查询所有数据
-				query.equalTo("user_openid_wechat", res.data);
-				query.select("note_title");
-				query.select("note_date");
-				query.select("date");
-				query.descending("date");
-				query.limit(1000);
-				query.find({
-					success: function(results) {
-						var temp = [];
-						var temp2 = [];
-						var tempSwicth = true;
-						// 循环处理查询到的数据
-						for(var i = 0; i < results.length; i++) {
-							if((results[i].attributes.note_title).indexOf(zhengzaishurudeneirong.detail.value) >= 0) {
-								temp.push(results[i]);
-								tempSwicth = false;
-							}
-							that.setData({
-								diaryList: temp
-							})
-						}
-						if(temp.length == 0 && zhengzaishurudeneirong.detail.value != '') {
-							that.setData({
-								diaryListSwitch: false
-							})
-						}
-					},
-
-					error: function(error) {
-
-						wx.showModal({
-							title: '服务器开小差了',
-							content: '是否重试',
-							confirmText: '重试',
-							success: function(res) {
-								if(res.confirm) {
-									// 如果用户点击了确认按钮
-									that.onShow();
-								}
-							}
-						});
-
+	search: function(inputing) {
+		var Diary_note = Bmob.Object.extend("user_note");
+		var query = new Bmob.Query(Diary_note);
+		query.equalTo("user_openid_wechat", noteVillage[0]);
+		query.select("note_title");
+		query.select("note_date");
+		query.select("date");
+		query.descending("date");
+		query.limit(1000);
+		query.find({
+			success: function(results) {
+				var temp = [];
+				var temp2 = [];
+				var tempSwicth = true;
+				for(var i = 0; i < results.length; i++) {
+					if((results[i].attributes.note_title).indexOf(inputing.detail.value) >= 0) {
+						temp.push(results[i]);
+						tempSwicth = false;
 					}
-				});
+					that.setData({
+						diaryList: temp
+					})
+				}
+				if(temp.length == 0 && inputing.detail.value != '') {
+					that.setData({
+						diaryListSwitch: false
+					})
+				}
+			},
+			error: function(error) {
+				retry();
 			}
-		})
+		});
 	},
 
 	createBtnClick: function() {
@@ -262,55 +244,20 @@ Page({
 		})
 	},
 	sysBtnClick: function(show) {
-		if(show == 'hide') {} else {
+		if(show != 'hide') {
 			wx.showToast({
 				title: '正在同步',
 				icon: 'loading',
 				duration: 9999
 			});
 		}
-		var Diary_note = Bmob.Object.extend("user_note");
-		var query = new Bmob.Query(Diary_note);
-		// 查询当前用户数据
-		if(noteVillage[0]) {
-			query.equalTo("user_openid_wechat", noteVillage[0]);
-			query.select("note_title");
-			query.select("note_date");
-			query.select("date");
-			query.descending("date");
-			query.limit(1000);
-			query.find({
-				success: function(results) {
-					// 循环处理查询到的数据
-					var temp = [];
-					var this_object_arr = [];
-					for(var i = 0; i < results.length; i++) {
-						temp.push(results[i]);
-					}
-					that.setData({
-						diaryList: temp,
-					});
-					wx.setStorage({
-						key: 'noteData',
-						data: temp,
-						success: function(res) {},
-					})
-					setTimeout(function() {
-						wx.hideToast()
-					}, 700)
-
-				},
-				error: function(error) {}
-			});
-		}
-
+		that.onShow();
 	},
 
 	onHide: function() {
 		that.setData({
 			searchContent: "",
 		});
-
 	},
 
 	sysBtnHover: function() {
@@ -323,7 +270,6 @@ Page({
 			sysBtnSrc: appParam.res.sysBtnSrc,
 		});
 	},
-
 	createBtnHover: function() {
 		that.setData({
 			createBtnSrc: appParam.res.creatBtnHlSrc,

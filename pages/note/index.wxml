@@ -4,7 +4,7 @@
       <input placeholder="搜..."  bindinput="search"  placeholder-class="searchHl" value="{{q_sousuo_neirong}}" />
     </view>
   </view>
-  <scroll-view class="noteListBox" scroll-y='true' scroll-top="{{scrollTop}}" style='height:{{texth}}px'>
+  <scroll-view class="noteListBox" scroll-y='true' scroll-top="{{scrollTop}}" style='height:{{scrollHeight}}px'>
     <view class="col"  wx:if="{{diaryList.length<1 && diaryListSwitch}}">
       <view class='item notepad'>
         <view class='content'>
@@ -60,7 +60,7 @@
     <view class="col" wx:for="{{diaryList}}" wx:key="cid">
       <view class='item notepad }'>
         <view class='content' data-index="{{index}}" id="{{item.objectId}}" catchtap="clickNotelist" >
-          <view id="{{item.objectId}}" catchlongtap='noteHoverStart' >
+          <view id="{{item.objectId}}" catchlongtap='noteListLongPress' >
             <view class='txt'>
               <text>{{item.note_title}}\n</text>
               <text class="note-date" >{{item.note_date}}</text>
