@@ -11,6 +11,36 @@ var over = {
 	arrayId: -1,
 };
 var queryParam = [];
+var noteData = [];
+
+function retry() {
+	wx.showModal({
+		title: '网络开小差了',
+		content: '是否重试',
+		confirmText: '重试',
+		success: function(res) {
+			if(res.confirm) {
+				that.onShow();
+			}
+		}
+	})
+};
+
+function changeNoteData(noteDa) {
+	wx.setStorage({
+		key: 'noteData',
+		data: noteDa,
+		success: function(res) {
+			wx.setStorage({
+				key: 'dataChange',
+				data: true,
+				success: function(res) {
+					wx.navigateBack();
+				},
+			})
+		},
+	})
+};
 
 function goSave() {
 	var Diary = Bmob.Object.extend("user_note");
@@ -28,9 +58,7 @@ function goSave() {
 			result.set("date", new Date().getTime());
 			result.save({
 				success: function(res) {
-					wx.navigateBack({
-						url: '../note/index'
-					})
+					saveNoteData(res);
 				}
 			});
 		},
@@ -59,7 +87,9 @@ function justSave() {
 			result.set("note_date", util.getNowTimeformat());
 			result.set("date", new Date().getTime());
 			result.save({
-				success: function(res) {}
+				success: function(res) {
+					setNoteData(res);
+				}
 			});
 		},
 		error: function(object, error) {
@@ -72,6 +102,60 @@ function justSave() {
 		}
 	});
 };
+
+function saveNoteData(res) {
+	for(var i = 0; i < noteData.length; i++) {
+		if(noteData[i].objectId == res.id) {
+			noteData[i] = {
+				date: res.attributes.date,
+				note_content: res.attributes.note_content,
+				note_date: res.attributes.note_date,
+				note_title: res.attributes.note_title,
+				objectId: res.id,
+			};
+
+		}
+	}
+	wx.setStorage({
+		key: 'noteData',
+		data: noteData,
+		success: function() {
+			wx.setStorage({
+				key: 'dataChange',
+				data: true,
+				success: function(res) {
+					wx.navigateBack();
+				},
+			})
+		},
+	});
+}
+
+function setNoteData(res) {
+	for(var i = 0; i < noteData.length; i++) {
+		if(noteData[i].objectId == res.id) {
+			noteData[i] = {
+				date: res.attributes.date,
+				note_content: res.attributes.note_content,
+				note_date: res.attributes.note_date,
+				note_title: res.attributes.note_title,
+				objectId: res.id,
+			};
+
+		}
+	}
+	wx.setStorage({
+		key: 'noteData',
+		data: noteData,
+		success: function() {
+			wx.setStorage({
+				key: 'dataChange',
+				data: true,
+			})
+		},
+	});
+}
+
 Page({
 	data: {
 		sendBtn: 'sendBtn',
@@ -98,6 +182,12 @@ Page({
 	onShow: function() {
 		over.input_content = '';
 		over.input_title = '';
+		wx.getStorage({
+			key: 'noteData',
+			success: function(res) {
+				noteData = res.data;
+			},
+		})
 	},
 
 	onReady: function() {},
@@ -109,7 +199,6 @@ Page({
 			over.input_title = over.input_title.substr(0, over.input_title.indexOf("\n"));
 		}
 		justSave();
-		console.log(queryParam)
 	},
 
 	// 笔记分享功能
@@ -126,9 +215,7 @@ Page({
 		if(over.input_title != '' || over.input_content != '') {
 			goSave();
 		} else {
-			wx.navigateBack({
-				delta: 1
-			})
+			wx.navigateBack()
 		}
 	},
 
@@ -148,5 +235,7 @@ Page({
 
 	},
 
-	onHide: function() {},
+	onHide: function() {
+
+	},
 });

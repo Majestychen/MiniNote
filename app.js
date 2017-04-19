@@ -2,6 +2,7 @@ const Bmob = require('lib/bmob.js');
 const appParam = require('utils/appParam.js');
 const util = require('utils/util.js');
 Bmob.initialize(appParam.bmob.id, appParam.bmob.key);
+
 App({
 	onLaunch: function() {
 		wx.login({
@@ -15,6 +16,7 @@ App({
 						grant_type: 'authorization_code'
 					},
 					success: function(res) {
+						util.getNoteData(res.data.openid);
 						wx.setStorage({
 							key: "user_openid",
 							data: res.data.openid
@@ -24,8 +26,7 @@ App({
 			}
 		});
 	},
-	onHide: function() { 
-	},
+	onHide: function() {},
 	getUserInfo: function(cb) {
 		var that = this
 		if(this.globalData.userInfo) {

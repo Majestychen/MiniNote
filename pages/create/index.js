@@ -20,6 +20,22 @@ function errorTost() {
 	})
 };
 
+function changeNoteData(noteData) {
+	wx.setStorage({
+		key: 'noteData',
+		data: noteData,
+		success: function(res) {
+			wx.setStorage({
+				key: 'dataChange',
+				data: true,
+				success: function(res) {
+					wx.navigateBack();
+				},
+			})
+		},
+	})
+};
+
 function goSubmit(swicth) {
 	if(over.input_title != '') {
 		var Diary_q_1 = Bmob.Object.extend("user_note");
@@ -35,6 +51,7 @@ function goSubmit(swicth) {
 				diary_q_1.save(null, {
 					success: function(result) {
 						noteData.push(result);
+						changeNoteData(noteData);
 					},
 					error: function(result, error) {
 						over.editFirst = true;
@@ -95,7 +112,7 @@ Page({
 		wx.getStorage({
 			key: 'noteData',
 			success: function(res) {
-		
+				noteData = res.data;
 			},
 		})
 	},
@@ -121,9 +138,7 @@ Page({
 	},
 
 	cancle: function() {
-		wx.navigateBack({
-			url: '../note/index'
-		})
+		wx.navigateBack();
 	},
 
 	onUnload: function() {

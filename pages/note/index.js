@@ -2,6 +2,7 @@
 const app = getApp();
 const appParam = app.appParam;
 const Bmob = require('../../lib/bmob.js');
+const util=app.util;
 var that;
 var noteData = [];
 var noteVillage = []; //0:userOpenId //1模拟按钮触摸效果
@@ -14,6 +15,7 @@ function deleteNote(objectId) {
 			object.destroy({
 				success: function(deleteObject) {
 					that.onShow();
+					util.getNoteData(objectId);
 				},
 				error: function(object, error) {
 					retry();
@@ -78,33 +80,17 @@ function jumpTop(e) {
 
 function compareNoteData(results) {
 	wx.getStorage({
-		key: 'noteData',
-		success: function(noteDataStorage) {
-			var newData = [],
-				oldData = [],
-				dataSame = true;
-			for(var i = 0; i < results.length; i++) {
-				newData.push(noteDataStorage.data[i].date);
-				oldData.push(results[i].attributes.date)
-				if(noteDataStorage.data[i].date != results[i].attributes.date) {
-					dataSame = false;
-				}
-			}
-			if(!dataSame || results.length != noteDataStorage.data.length) {
-				noteData = results;
-				wx.setStorage({
-					key: 'noteData',
-					data: results,
-					success: function(res) {
-						jumpTop();
-					},
-				})
+		key: 'dataChange',
+		success: function(dataChange) {
+			if(dataChange.data) {
+				jumpTop();
 			}
 		},
+		fail: function(e) {},
 	})
 };
 
-function requestNoteData() {
+function requestNoteData(firstLoad) {
 	wx.getStorage({
 		key: 'user_openid',
 		success: function(openId) {
@@ -128,13 +114,27 @@ function requestNoteData() {
 					setTimeout(function() {
 						wx.hideToast()
 					}, 700)
-					compareNoteData(results);
+					compareNoteData();
 				},
 				error: function(error) {
 					retry();
 				}
 			});
 		}
+	});
+};
+
+function getNoteDataSt() {
+	wx.getStorage({
+		key: 'noteData',
+		success: function(res) {
+			that.setData({
+				diaryList: res.data,
+			});
+		},
+		complete: function(res) {
+			requestNoteData();
+		},
 	})
 };
 
@@ -147,8 +147,8 @@ function init() {
 				scrollHeight: tempHeight,
 			});
 		}
-	})
-	requestNoteData();
+	});
+	getNoteDataSt();
 };
 
 Page({
@@ -162,7 +162,7 @@ Page({
 		that = this;
 	},
 
-	onShow: function(eshow) {
+	onShow: function() {
 		init();
 	},
 
@@ -183,22 +183,20 @@ Page({
 	},
 
 	clickNotelist: function(e) {
-		var objectId = 0;
-		if(e > 0) {
-			objectId = 0;
-		} else {
-			objectId = e.target.id ? e.target.id : e.currentTarget.id;
-		}
-
-		for(var i = 0; i < noteData.length; i++) {
-			if(noteData[i].id == objectId) {
-				if(!noteVillage[1]) {
-					wx.navigateTo({
-						url: '../edit/index?id=' + objectId + ',' + noteData[i].attributes.note_content
-					})
+		var objectId = e.target.id ? e.target.id : e.currentTarget.id;
+		wx.setStorage({
+			key: 'dataChange',
+			data: false,
+			success: function(res) {
+				for(var i = 0; i < noteData.length; i++) {
+					if(noteData[i].id == objectId && !noteVillage[1]) {
+						wx.navigateTo({
+							url: '../edit/index?id=' + objectId + ',' + noteData[i].attributes.note_content
+						})
+					}
 				}
-			}
-		}
+			},
+		})
 
 	},
 
@@ -246,8 +244,14 @@ Page({
 	},
 
 	createBtnClick: function() {
-		wx.navigateTo({
-			url: '../create/index'
+		wx.setStorage({
+			key: 'dataChange',
+			data: false,
+			success: function(res) {
+				wx.navigateTo({
+					url: '../create/index'
+				})
+			},
 		})
 	},
 	sysBtnClick: function(show) {
