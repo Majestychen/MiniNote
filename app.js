@@ -24,8 +24,7 @@ App({
 			}
 		});
 	},
-	onHide: function() {
-		wx.clearStorage();
+	onHide: function() { 
 	},
 	getUserInfo: function(cb) {
 		var that = this

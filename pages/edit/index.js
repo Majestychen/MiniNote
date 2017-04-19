@@ -15,7 +15,7 @@ var queryParam = [];
 function goSave() {
 	var Diary = Bmob.Object.extend("user_note");
 	var query = new Bmob.Query(Diary);
-	query.get(queryParam[1], {
+	query.get(queryParam[0], {
 		success: function(result) {
 			if(over.input_title != '') {
 				result.set("note_title", over.input_title);
@@ -48,7 +48,7 @@ function goSave() {
 function justSave() {
 	var Diary = Bmob.Object.extend("user_note");
 	var query = new Bmob.Query(Diary);
-	query.get(queryParam[1], {
+	query.get(queryParam[0], {
 		success: function(result) {
 			if(over.input_title != '') {
 				result.set("note_title", over.input_title);
@@ -88,9 +88,10 @@ Page({
 				});
 			}
 		})
-		queryParam = query.id.split(',');
+		queryParam[0] = query.id.split(',')[0];
+		queryParam[1] = query.id.slice((query.id.indexOf(",") + 1));
 		that.setData({
-			input_conten: queryParam[0],
+			input_conten: queryParam[1],
 		});
 	},
 
@@ -108,6 +109,7 @@ Page({
 			over.input_title = over.input_title.substr(0, over.input_title.indexOf("\n"));
 		}
 		justSave();
+		console.log(queryParam)
 	},
 
 	// 笔记分享功能

@@ -45,13 +45,9 @@ function deleteNoteMenu(objectId) {
 function longClickMenu(e) {
 	var objectId = e.target.id ? e.target.id : e.currentTarget.id;
 	wx.showActionSheet({
-		itemList: ['查看', '删除'],
+		itemList: ['删除'],
 		success: function(res) {
 			if(res.tapIndex == 0) {
-				wx.navigateTo({
-					url: '../edit/index?id=' + objectId
-				})
-			} else if(res.tapIndex == 1) {
 				deleteNoteMenu(objectId);
 			}
 			noteVillage[1] = false;
@@ -187,12 +183,18 @@ Page({
 	},
 
 	clickNotelist: function(e) {
-		var objectId = e.target.id ? e.target.id : e.currentTarget.id;
+		var objectId = 0;
+		if(e > 0) {
+			objectId = 0;
+		} else {
+			objectId = e.target.id ? e.target.id : e.currentTarget.id;
+		}
+
 		for(var i = 0; i < noteData.length; i++) {
 			if(noteData[i].id == objectId) {
 				if(!noteVillage[1]) {
 					wx.navigateTo({
-						url: '../edit/index?id=' + noteData[i].attributes.note_content+','+objectId
+						url: '../edit/index?id=' + objectId + ',' + noteData[i].attributes.note_content
 					})
 				}
 			}
