@@ -74,7 +74,7 @@ function retry() {
 	})
 };
 
-function jumpTop() {
+function jumpTop(e) {
 	that.setData({
 		scrollTop: 0,
 	});

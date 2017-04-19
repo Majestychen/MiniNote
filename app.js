@@ -88,9 +88,6 @@ App({
 			})
 		}
 	},
-
-
-
 	util: util,
 	appParam: appParam,
 	Bmob: Bmob,
