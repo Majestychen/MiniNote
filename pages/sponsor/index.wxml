@@ -1,42 +1,42 @@
-
 <!--index.wxml-->
 <view class="container">
-<scroll-view scroll-y="true">
-    <!--版本开始-->
-    <view class="fenlei text-center">
-      <text class='info'>您的支持是对我们最大的鼓励</text>
- 
-    </view>
-    <!--版本结束-->
+	<scroll-view scroll-y="true">
+		<!--版本开始-->
+		<view class="fenlei text-center">
+			<text class='info'>您的支持是对我们最大的鼓励</text>
 
-<!--微信的付款图-->
-    <view class='box-wxpay'>
-    <image class='wxpay' src="http://ojuwy6uww.bkt.clouddn.com/dashang.png">    
-    </image>    
-    <text>微信号:zhangqgc 支付宝:zhangqgc@126.com</text>
-     
-    </view>
+		</view>
+		<!--版本结束-->
 
-       <!--版本开始-->
-    <view class="fenlei">
-      <text>您的捐赠将被用于:</text>
-    <view class="mg-10">
-        <text>1.持续深入的开发和维护小程序</text>
-      </view>
-      <view>
-        <text>2.购买更好的服务器和带宽</text>
-      </view>
-    </view>
-    <!--版本结束-->
+		<!--微信的付款图-->
+		<view class='box-wxpay'>
+			<image class='box-wxpay' src="http://ojuwy6uww.bkt.clouddn.com/mypay.jpg"></image>
+		</view>
+		<view class='payStyle'>
+			<text>微信号:holysoulmate 支付宝:HaoleiQin@qq.com</text>
+		</view>
 
-       <!--版本开始-->
-    <view class="fenlei">
-      <text>{{in_info}}\n</text>
-      <text>\n捐赠列表:(实时更新) ^_^</text>
-      <view class="pay-list"  wx:for="{{diaryList}}" wx:key="999999" >
-        <text>·{{item.name}}</text> <text>$ {{item.money}}</text>
-      </view> 
-    </view>
-    <!--版本结束-->
-</scroll-view>
+		<!--版本开始-->
+		<view class="fenlei">
+			<text>您的捐赠将被用于:</text>
+			<view class="mg-10">
+				<text>1.持续深入的开发和维护小程序</text>
+			</view>
+			<view>
+				<text>2.购买更好的服务器和带宽</text>
+			</view>
+		</view>
+		<!--版本结束-->
+
+		<!--版本开始-->
+		<view class="fenlei">
+			<text>{{in_info}}\n</text>
+			<text>\n捐赠列表:(实时更新) ^_^</text>
+			<view class="pay-list"  wx:for="{{diaryList}}" wx:key="999999" >
+				<text>·{{item.name}}</text>
+				<text>$ {{item.money}}</text>
+			</view>
+		</view>
+		<!--版本结束-->
+	</scroll-view>
 </view>

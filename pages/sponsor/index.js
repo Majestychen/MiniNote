@@ -1,6 +1,6 @@
 //sponsor/index.js
 var app = getApp()
-var Bmob = require('../../utils/bmob.js');
+var Bmob = require('../../lib/bmob.js');
 var Diary = Bmob.Object.extend("user_note");
 var that;
 Page({

@@ -1,5 +1,5 @@
 //pages/help/index.js
-var Bmob = require('../../utils/bmob.js'); 
+var Bmob = require('../../lib/bmob.js'); 
 var that;
 Page({
   

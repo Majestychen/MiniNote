@@ -1,5 +1,5 @@
 //pages/feedback/index.js
-var Bmob = require('../../utils/bmob.js');
+var Bmob = require('../../lib/bmob.js');
 //  正文内容
 var input_zhengzai = '';
 //  标题内容

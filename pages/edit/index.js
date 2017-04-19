@@ -1,6 +1,6 @@
 //pages/edit/index.js
 var app = getApp();
-var BmobEdit = require('../../utils/bmob.js');
+var BmobEdit = require('../../lib/bmob.js');
 var that = {};
 var over = {
 	objectId: 0,
@@ -12,7 +12,7 @@ var over = {
 
 function setEditData() {
 	wx.getStorage({
-		key: 'all_note_data_001',
+		key: 'noteData',
 		success: function(res) {
 			over.editData = res.data;
 			for(var i = 0; i < res.data.length; i++) {
@@ -21,9 +21,6 @@ function setEditData() {
 					that.setData({
 						input_conten: over.editData[i].note_content,
 					});
-					wx.setNavigationBarTitle({
-						title: over.editData[i].note_title,
-					})
 					wx.hideNavigationBarLoading();
 				} else {
 
@@ -48,12 +45,13 @@ function goSave() {
 				result.set("note_content", over.input_content);
 				over.editData[over.arrayId].input_content = over.input_content;
 			}
-			result.set("note_date", app.getNowTimeformat());
-			over.editData[over.arrayId].note_date = app.getNowTimeformat();
+			result.set("note_date", util.getNowTimeformat());
+			result.set("date", new Date().getTime());
+			over.editData[over.arrayId].note_date = util.getNowTimeformat();
 			result.save({
 				success: function(res) {
 					wx.setStorage({
-						key: 'all_note_data_001',
+						key: 'noteData',
 						data: over.editData,
 						success: function(res) {
 							wx.navigateBack({
@@ -94,20 +92,15 @@ function justSave() {
 				result.set("note_content", over.input_content);
 				over.editData[over.arrayId].input_content = over.input_content;
 			}
-			result.set("note_date", app.getNowTimeformat());
-			over.editData[over.arrayId].note_date = app.getNowTimeformat();
+			result.set("note_date", util.getNowTimeformat());
+			result.set("date", new Date().getTime());
+			over.editData[over.arrayId].note_date = util.getNowTimeformat();
 			result.save({
 				success: function(res) {
 					wx.setStorage({
-						key: 'all_note_data_001',
+						key: 'noteData',
 						data: over.editData,
 						success: function(res) {},
-						fail: function() {
-							// fail
-						},
-						complete: function() {
-							// complete
-						}
 					});
 				}
 			});
@@ -159,9 +152,6 @@ Page({
 		if(over.input_title.indexOf("\n") > -1) {
 			over.input_title = over.input_title.substr(0, over.input_title.indexOf("\n"));
 		}
-		wx.setNavigationBarTitle({
-			title: over.input_title,
-		})
 		justSave();
 	},
 

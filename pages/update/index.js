@@ -1,7 +1,7 @@
 //update/index.js
 //获取应用实例
 var app = getApp()
-var Bmob = require('../../utils/bmob.js');
+var Bmob = require('../../lib/bmob.js');
 var that;
 Page({
 

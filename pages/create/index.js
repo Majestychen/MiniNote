@@ -1,11 +1,12 @@
 //pages/create/index.js
-var Bmob = require('../../utils/bmob.js');
 var that = {};
+const app = getApp();
+const util=app.util;
+var Bmob = require('../../lib/bmob.js');
 //  搞Bmob的一些东西哈
 var Diary = Bmob.Object.extend("user_note");
 //  用来查询数据的
 var diary = new Diary();
-var app = getApp();
 // 用来存储笔记内容和标题
 var over = {
 	input_title: '',
@@ -25,15 +26,16 @@ function goSubmit(T) {
 			success: function(res) {
 				diary_q_1.set("user_openid_wechat", res.data);
 				diary_q_1.set("note_title", over.input_title);
-				diary_q_1.set("note_date", app.getNowTimeformat());
+				diary_q_1.set("note_date", util.getNowTimeformat());
+				diary_q_1.set("date", new Date().getTime());
 				diary_q_1.set("note_content", over.input_content);
 				diary_q_1.save(null, {
 					success: function(result) {
 						wx.getStorage({
-							key: 'all_note_data_001',
+							key: 'noteData',
 							success: function(res) {
 								over.temp_consle = res.data;
-								over.temp_consle.push({ note_title: over.input_title, note_date: app.getNowTimeformat(), note_content: over.input_content });
+								over.temp_consle.push({ note_title: over.input_title, note_date: util.getNowTimeformat(), note_content: over.input_content });
 							},
 							fail: function(res) {
 								// fail
@@ -44,7 +46,7 @@ function goSubmit(T) {
 						})
 
 						wx.setStorage({
-							key: 'all_note_data_001',
+							key: 'noteData',
 							data: over.temp_consle,
 							success: function(res) {
 								if (T) {
@@ -116,7 +118,7 @@ Page({
 			}
 		})
 		this.setData({
-			now_time: app.getNowTimeformat(),
+			now_time: util.getNowTimeformat(),
 		});
 	},
 
@@ -124,9 +126,6 @@ Page({
 		over.input_content='';
 		over.input_title='';
 		over.editFirst = true;
-		wx.setNavigationBarTitle({
-			title: '',
-		})
 	},
 
 	onReady: function() {
@@ -139,9 +138,6 @@ Page({
 		if(over.input_title.indexOf("\n") > -1) {
 			over.input_title = over.input_title.substr(0, over.input_title.indexOf("\n"));
 		}
-		wx.setNavigationBarTitle({
-			title: over.input_title,
-		})
 
 	},
 

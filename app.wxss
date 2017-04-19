@@ -1,5 +1,5 @@
 /**app.wxss**/
-/*全局背景颜色*/
+/*全局样式*/
 page{
     background: #ebebeb;
 }
