@@ -13,7 +13,7 @@ function deleteNote(objectId) {
 		success: function(object) {
 			object.destroy({
 				success: function(deleteObject) {
-					that.sysBtnClick('hide');
+					that.onShow();
 				},
 				error: function(object, error) {
 					retry();
@@ -87,7 +87,7 @@ function compareNoteData(results) {
 			var newData = [],
 				oldData = [],
 				dataSame = true;
-			for(var i = 0; i < noteDataStorage.data.length; i++) {
+			for(var i = 0; i < results.length; i++) {
 				newData.push(noteDataStorage.data[i].date);
 				oldData.push(results[i].attributes.date)
 				if(noteDataStorage.data[i].date != results[i].attributes.date) {
@@ -103,7 +103,7 @@ function compareNoteData(results) {
 						jumpTop();
 					},
 				})
-			} else {}
+			}
 		},
 	})
 };
@@ -146,7 +146,7 @@ function init() {
 	wx.getSystemInfo({
 		success: function(res) {
 			var tempHeight = res.windowHeight;
-			tempHeight = tempHeight-40;
+			tempHeight = tempHeight - 40;
 			that.setData({
 				scrollHeight: tempHeight,
 			});
@@ -188,11 +188,16 @@ Page({
 
 	clickNotelist: function(e) {
 		var objectId = e.target.id ? e.target.id : e.currentTarget.id;
-		if(!noteVillage[1]) {
-			wx.navigateTo({
-				url: '../edit/index?id=' + objectId
-			})
+		for(var i = 0; i < noteData.length; i++) {
+			if(noteData[i].id == objectId) {
+				if(!noteVillage[1]) {
+					wx.navigateTo({
+						url: '../edit/index?id=' + noteData[i].attributes.note_content+','+objectId
+					})
+				}
+			}
 		}
+
 	},
 
 	noteListLongPress: function(e) {

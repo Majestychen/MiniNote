@@ -1,23 +1,26 @@
 //pages/create/index.js
-var that = {};
 const app = getApp();
-const util=app.util;
-var Bmob = require('../../lib/bmob.js');
-//  搞Bmob的一些东西哈
-var Diary = Bmob.Object.extend("user_note");
-//  用来查询数据的
-var diary = new Diary();
-// 用来存储笔记内容和标题
+const util = app.util;
+const Bmob = require('../../lib/bmob.js');
+var that = {};
 var over = {
 	input_title: '',
 	input_content: '',
 	temp_consle: [],
 	editData: [],
-	objectId: 0,
 	editFirst: true,
 };
+var noteData = [];
 
-function goSubmit(T) {
+function errorTost() {
+	wx.showToast({
+		title: '网络故障,请重试',
+		icon: 'loading',
+		duration: 666
+	})
+};
+
+function goSubmit(swicth) {
 	if(over.input_title != '') {
 		var Diary_q_1 = Bmob.Object.extend("user_note");
 		var diary_q_1 = new Diary_q_1();
@@ -31,48 +34,11 @@ function goSubmit(T) {
 				diary_q_1.set("note_content", over.input_content);
 				diary_q_1.save(null, {
 					success: function(result) {
-						wx.getStorage({
-							key: 'noteData',
-							success: function(res) {
-								over.temp_consle = res.data;
-								over.temp_consle.push({ note_title: over.input_title, note_date: util.getNowTimeformat(), note_content: over.input_content });
-							},
-							fail: function(res) {
-								// fail
-							},
-							complete: function(res) {
-								// complete
-							}
-						})
-
-						wx.setStorage({
-							key: 'noteData',
-							data: over.temp_consle,
-							success: function(res) {
-								if (T) {
-									wx.navigateBack({
-									url: '../note/index'
-								})
-								} else{
-									
-								}
-								
-							},
-							fail: function() {
-								// fail
-							},
-							complete: function() {
-								// complete
-							}
-						})
+						noteData.push(result);
 					},
 					error: function(result, error) {
 						over.editFirst = true;
-						wx.showToast({
-							title: '网络故障,请重试',
-							icon: 'loading',
-							duration: 666
-						})
+						errorTost();
 					}
 				});
 
@@ -123,9 +89,15 @@ Page({
 	},
 
 	onShow: function() {
-		over.input_content='';
-		over.input_title='';
+		over.input_content = '';
+		over.input_title = '';
 		over.editFirst = true;
+		wx.getStorage({
+			key: 'noteData',
+			success: function(res) {
+		
+			},
+		})
 	},
 
 	onReady: function() {

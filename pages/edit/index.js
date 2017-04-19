@@ -1,6 +1,7 @@
 //pages/edit/index.js
-var app = getApp();
-var BmobEdit = require('../../lib/bmob.js');
+const app = getApp();
+const Bmob = require('../../lib/bmob.js');
+const util = app.util;
 var that = {};
 var over = {
 	objectId: 0,
@@ -9,62 +10,27 @@ var over = {
 	editData: [],
 	arrayId: -1,
 };
-
-function setEditData() {
-	wx.getStorage({
-		key: 'noteData',
-		success: function(res) {
-			over.editData = res.data;
-			for(var i = 0; i < res.data.length; i++) {
-				if(res.data[i].objectId === over.objectId) {
-					over.arrayId = i;
-					that.setData({
-						input_conten: over.editData[i].note_content,
-					});
-					wx.hideNavigationBarLoading();
-				} else {
-
-				}
-			}
-		},
-		fail: function() {},
-		complete: function() {}
-	});
-};
+var queryParam = [];
 
 function goSave() {
-	var Diary = BmobEdit.Object.extend("user_note");
-	var query = new BmobEdit.Query(Diary);
-	query.get(over.objectId, {
+	var Diary = Bmob.Object.extend("user_note");
+	var query = new Bmob.Query(Diary);
+	query.get(queryParam[1], {
 		success: function(result) {
 			if(over.input_title != '') {
 				result.set("note_title", over.input_title);
-				over.editData[over.arrayId].input_title = over.input_title;
+
 			}
 			if(over.input_content || over.input_content == '') {
 				result.set("note_content", over.input_content);
-				over.editData[over.arrayId].input_content = over.input_content;
 			}
 			result.set("note_date", util.getNowTimeformat());
 			result.set("date", new Date().getTime());
-			over.editData[over.arrayId].note_date = util.getNowTimeformat();
 			result.save({
 				success: function(res) {
-					wx.setStorage({
-						key: 'noteData',
-						data: over.editData,
-						success: function(res) {
-							wx.navigateBack({
-								url: '../note/index'
-							})
-						},
-						fail: function() {
-							// fail
-						},
-						complete: function() {
-							// complete
-						}
-					});
+					wx.navigateBack({
+						url: '../note/index'
+					})
 				}
 			});
 		},
@@ -80,29 +46,20 @@ function goSave() {
 };
 
 function justSave() {
-	var Diary = BmobEdit.Object.extend("user_note");
-	var query = new BmobEdit.Query(Diary);
-	query.get(over.objectId, {
+	var Diary = Bmob.Object.extend("user_note");
+	var query = new Bmob.Query(Diary);
+	query.get(queryParam[1], {
 		success: function(result) {
 			if(over.input_title != '') {
 				result.set("note_title", over.input_title);
-				over.editData[over.arrayId].input_title = over.input_title;
 			}
 			if(over.input_content || over.input_content == '') {
 				result.set("note_content", over.input_content);
-				over.editData[over.arrayId].input_content = over.input_content;
 			}
 			result.set("note_date", util.getNowTimeformat());
 			result.set("date", new Date().getTime());
-			over.editData[over.arrayId].note_date = util.getNowTimeformat();
 			result.save({
-				success: function(res) {
-					wx.setStorage({
-						key: 'noteData',
-						data: over.editData,
-						success: function(res) {},
-					});
-				}
+				success: function(res) {}
 			});
 		},
 		error: function(object, error) {
@@ -120,7 +77,7 @@ Page({
 		sendBtn: 'sendBtn',
 	},
 
-	onLoad: function(e) {
+	onLoad: function(query) {
 		that = this;
 		wx.getSystemInfo({
 			success: function(res) {
@@ -131,20 +88,18 @@ Page({
 				});
 			}
 		})
-		over.objectId = e.id;
-		setEditData();
+		queryParam = query.id.split(',');
+		that.setData({
+			input_conten: queryParam[0],
+		});
 	},
 
 	onShow: function() {
 		over.input_content = '';
 		over.input_title = '';
-		wx.showNavigationBarLoading();
-		setEditData()
 	},
 
-	onReady: function() {
-		setEditData();
-	},
+	onReady: function() {},
 
 	zhengzai_input: function(e) {
 		over.input_content = e.detail.value;
@@ -160,7 +115,7 @@ Page({
 	onShareAppMessage: function() {
 		return {
 			title: over.input_title,
-			path: 'pages/edit/index?id=' + over.objectId
+			path: 'pages/edit/index?id=' + queryParam
 		}
 	},
 	*/
