@@ -58,7 +58,7 @@ function goSave() {
 			result.set("date", new Date().getTime());
 			result.save({
 				success: function(res) {
-					saveNoteData(res);
+					saveNoteData(res, true);
 				}
 			});
 		},
@@ -88,7 +88,7 @@ function justSave() {
 			result.set("date", new Date().getTime());
 			result.save({
 				success: function(res) {
-					setNoteData(res);
+					saveNoteData(res, false);
 				}
 			});
 		},
@@ -103,7 +103,7 @@ function justSave() {
 	});
 };
 
-function saveNoteData(res) {
+function saveNoteData(res, save) {
 	for(var i = 0; i < noteData.length; i++) {
 		if(noteData[i].objectId == res.id) {
 			noteData[i] = {
@@ -124,33 +124,10 @@ function saveNoteData(res) {
 				key: 'dataChange',
 				data: true,
 				success: function(res) {
-					wx.navigateBack();
+					if(save) {
+						wx.navigateBack();
+					}
 				},
-			})
-		},
-	});
-}
-
-function setNoteData(res) {
-	for(var i = 0; i < noteData.length; i++) {
-		if(noteData[i].objectId == res.id) {
-			noteData[i] = {
-				date: res.attributes.date,
-				note_content: res.attributes.note_content,
-				note_date: res.attributes.note_date,
-				note_title: res.attributes.note_title,
-				objectId: res.id,
-			};
-
-		}
-	}
-	wx.setStorage({
-		key: 'noteData',
-		data: noteData,
-		success: function() {
-			wx.setStorage({
-				key: 'dataChange',
-				data: true,
 			})
 		},
 	});
