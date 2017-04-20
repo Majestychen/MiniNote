@@ -1,5 +1,5 @@
 {
 
-    "enablePullDownRefresh": "false",
-    "navigationBarTitleText": "历史"
+    "enablePullDownRefresh": false,
+    "navigationBarTitleText": "升级历史"
 }

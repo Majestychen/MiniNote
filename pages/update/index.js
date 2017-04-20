@@ -1,35 +1,38 @@
-//update/index.js
-//获取应用实例
-var app = getApp()
-var Bmob = require('../../lib/bmob.js');
+//pages/update/index.js
+var app = getApp();
+const Bmob = require('../../lib/bmob.js');
 var that;
+
+function retry() {
+	wx.showModal({
+		title: '网络出问题啦',
+		content: '是否重试',
+		confirmText: '重试',
+		success: function(res) {
+			if(res.confirm) {
+				that.onShow();
+			}
+		}
+	});
+};
 Page({
-
-	data: {
-		motto: 'Hello World',
-		userInfo: {}
-	},
-
+	data: {},
 	onLoad: function() {
 		that = this;
 	},
 
 	onShow: function() {
-		var Diary_note = Bmob.Object.extend("update_history");
-		var query = new Bmob.Query(Diary_note);
+		var query = new Bmob.Query(Bmob.Object.extend("update_history"));
 		query.descending("time");
 		query.find({
 			success: function(results) {
-				var temp = [];
-				var temp2 = [];
-				for(var i = 0; i < results.length; i++) {
-					temp.push(results[i]);
-				}
 				that.setData({
-					diaryList: temp
+					updateHistoryData: results
 				})
 			},
-			error: function(error) {}
+			error: function(error) {
+				retry();
+			}
 		});
 	},
 
