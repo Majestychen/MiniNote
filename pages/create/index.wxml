@@ -1,11 +1,11 @@
-
-<!--index.wxml-->
+<!--pages/create/index.wxml-->
 <view class="bigman">
-  <view class="container">
-    <!--反馈内容-->
-    <view class='row' catchtap="onFocus">
-      <textarea bindinput="zhengzai_input" class='text' maxlength="12000" placeholder="...第一行自动存为标题" style='height:{{texth}}px'/>
-    </view>
-    <view class='sendBtn' hover-class="sendBtnHover"   bindtap="submit">好</view>
-  </view>
+	<view class="container">
+		<view class='row' catchtap="onFocus">
+			<textarea bindinput="zhengzai_input" class='text' maxlength="12000" placeholder="...第一行自动存为标题" style='height:{{texth}}px'/>
+		</view>
+		<view class='sendBtn' hover-class="sendBtnHover"   bindtap="okClick">
+			好
+		</view>
+	</view>
 </view>

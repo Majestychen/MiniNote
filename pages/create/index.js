@@ -35,7 +35,7 @@ function changeNoteData(noteData) {
 	})
 };
 
-function goSubmit(swicth) {
+function addNoteApi(swicth) {
 	if(over.input_content != '' || over.input_title != '') {
 		var Diary_q_1 = Bmob.Object.extend("user_note");
 		var diary_q_1 = new Diary_q_1();
@@ -115,8 +115,8 @@ Page({
 
 	},
 
-	submit: function(e) {
-		goSubmit();
+	okClick: function(e) {
+		addNoteApi();
 	},
 
 	cancle: function() {
@@ -124,6 +124,6 @@ Page({
 	},
 
 	onUnload: function() {
-		goSubmit();
+		addNoteApi();
 	},
 });

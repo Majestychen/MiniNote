@@ -151,8 +151,8 @@ Page({
 		})
 		queryParam[0] = query.id.split(',')[0];
 		queryParam[1] = query.id.slice((query.id.indexOf(",") + 1));
-		that.setData({
-			input_conten: queryParam[1],
+		this.setData({
+			textareaContent: queryParam[1],
 		});
 	},
 

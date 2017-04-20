@@ -134,9 +134,7 @@ function requestNoteData(openId) {
 				diaryList: results,
 			});
 			noteData = results;
-			setTimeout(function() {
-				wx.hideToast()
-			}, 700)
+			wx.hideToast();
 			compareNoteData();
 		},
 		error: function(error) {
@@ -179,6 +177,11 @@ Page({
 		diaryListSwitch: true,
 	},
 	onLoad: function(this_object) {
+		wx.showToast({
+			title: '同步中...',
+			icon: 'loading',
+			duration: 3333
+		})
 		noteVillage[1] = false;
 		that = this;
 	},
