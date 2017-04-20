@@ -1,5 +1,4 @@
 /**app.wxss**/
-
 page {
 	background: #ebebeb;
 	width: 100%;
