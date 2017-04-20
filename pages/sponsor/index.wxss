@@ -54,7 +54,7 @@ page {
 }
 
 .pay-list {
-	width: 250px;
+	width: 90%;
 	display: flex;
 	justify-content: space-between;
 }
