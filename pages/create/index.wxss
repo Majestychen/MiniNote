@@ -40,12 +40,6 @@ page {
   padding-top: 5%;
 }
 
-.row image {
-  margin-left: 15px;
-  width: 80px;
-  height: 80px;
-}
-
 .row .text {
   width: 92%;
   margin: 0 auto;
