@@ -20,7 +20,7 @@ Page({
 	},
 	aboutmeClick: function() {
 		wx.showActionSheet({
-			itemList: ['author:Q', 'www.QinHaolei.com', 'HaoleiQin@qq.com'],
+			itemList: ['author:Q', 'www.qinhaolei.com', 'haoleiqin@qq.com'],
 			success: function(res) {
 				if(res.tapIndex == 0) {
 					wx.navigateTo({
