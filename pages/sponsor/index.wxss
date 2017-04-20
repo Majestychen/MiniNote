@@ -1,11 +1,12 @@
-/**index.wxss**/
+/**pages/sponsor/index.wxss**/
 
 page {
 	background: #fff;
 }
 
 .container {
-	background: #fff;
+	background: #ffffff;
+	overflow-y: scroll;
 }
 
 .userinfo {
@@ -26,9 +27,9 @@ page {
 	font-size: 12px;
 }
 
-.payStyle{
-	  text-align: center;
-		font-size: 12px;
+.payStyle {
+	text-align: center;
+	font-size: 12px;
 }
 
 .box-wxpay image {
@@ -48,85 +49,21 @@ page {
 	text-align: center;
 }
 
-.mg-10 {
+.m-g-t {
 	margin-top: 10px;
 }
 
 .pay-list {
 	width: 250px;
 	display: flex;
-	margin-top: 10px;
 	justify-content: space-between;
 }
 
-.pay-list text {}
-
-.top {
-	padding-top: 10px;
-	text-align: center;
-}
-
-.top text {
-	font-size: 20px;
-}
-
-.fenlei {
+.tr {
 	padding: 15px;
 	font-size: 30rpx;
 }
 
-.fenlei view {
+.tr view {
 	padding-left: 10px;
-}
-
-.userinfo-nickname {
-	color: #aaa;
-}
-
-.user_image {
-	width: 160rpx;
-	height: 160rpx;
-	border-radius: 50%;
-	margin: 0 auto;
-	margin-top: 20rpx;
-}
-
-.top_img {
-	padding-top: 55rpx;
-	display: flex;
-	flex-direction: column;
-	background: #776e65;
-	padding-bottom: 75rpx;
-}
-
-.user_name {
-	font-family: Verdana, Geneva, Tahoma, sans-serif;
-	margin: 0 auto;
-	margin-top: 35rpx;
-	color: white;
-	font-size: 45rpx;
-}
-
-.tongbu {
-	margin-top: 40rpx;
-	text-align: center;
-}
-
-.version {
-	margin-top: 20rpx;
-	font-size: 24rpx;
-	color: #8a827a;
-}
-
-.help {
-	margin-top: 40rpx;
-}
-
-.mie {
-	font-size: 55rpx;
-}
-
-.shangchuan,
-.xiazai {
-	color: #4c2c1d;
 }

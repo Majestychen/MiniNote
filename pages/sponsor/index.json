@@ -1,5 +1,4 @@
 {
-
-    "enablePullDownRefresh": "false",
-    "navigationBarTitleText": "感谢您的支持"
+    "enablePullDownRefresh": true,
+    "navigationBarTitleText": "不忘初心 方得始终"
 }

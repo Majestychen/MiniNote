@@ -3,9 +3,6 @@ var Bmob = require('../../lib/bmob.js');
 const app = getApp();
 var feedbackContent = '';
 var contactContent = '';
-var chooseImg = [];
-var tempPaths = '';
-var tempFile_num = 0;
 var tempPathArr = [];
 Page({
 	data: {
