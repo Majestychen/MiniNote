@@ -62,8 +62,17 @@ function getNowTimeformat() {
 	return newtime3;
 };
 
+function errorTost() {
+	wx.showToast({
+		title: '网络故障,请重试',
+		icon: 'loading',
+		duration: 666
+	})
+};
+
 module.exports = {
 	formatTime: formatTime,
 	getNowTimeformat: getNowTimeformat,
 	getNoteData:getNoteData,
+	errorTost:errorTost,
 };

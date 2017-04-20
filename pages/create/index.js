@@ -2,22 +2,8 @@
 const app = getApp();
 const util = app.util;
 const Bmob = require('../../lib/bmob.js');
-var that = {};
-var over = {
-	input_title: '',
-	input_content: '',
-	temp_consle: [],
-	editData: [],
-};
+var inputContent = []; //0:title 1:content //2:openid
 var noteData = [];
-
-function errorTost() {
-	wx.showToast({
-		title: '网络故障,请重试',
-		icon: 'loading',
-		duration: 666
-	})
-};
 
 function changeNoteData(noteData) {
 	wx.setStorage({
@@ -35,31 +21,25 @@ function changeNoteData(noteData) {
 	})
 };
 
-function addNoteApi(swicth) {
-	if(over.input_content != '' || over.input_title != '') {
-		var Diary_q_1 = Bmob.Object.extend("user_note");
-		var diary_q_1 = new Diary_q_1();
-		wx.getStorage({
-			key: 'user_openid',
-			success: function(res) {
-				diary_q_1.set("user_openid_wechat", res.data);
-				diary_q_1.set("note_title", over.input_title);
-				diary_q_1.set("note_date", util.getNowTimeformat());
-				diary_q_1.set("date", new Date().getTime());
-				diary_q_1.set("note_content", over.input_content);
-				diary_q_1.save(null, {
-					success: function(result) {
-						noteData.push(result);
-						changeNoteData(noteData);
-					},
-					error: function(result, error) {
-						errorTost();
-					}
-				});
-
+function addNote(swicth) {
+	if(inputContent[1] != '' || inputContent[0] != '' && inputContent[2]) {
+		var userNote = Bmob.Object.extend("user_note");
+		var addNoteB = new userNote();
+		addNoteB.set("user_openid_wechat", inputContent[2]);
+		addNoteB.set("note_title", inputContent[0]);
+		addNoteB.set("note_date", util.getNowTimeformat());
+		addNoteB.set("date", new Date().getTime());
+		addNoteB.set("note_content", inputContent[1]);
+		addNoteB.save(null, {
+			success: function(result) {
+				noteData.push(result);
+				changeNoteData(noteData);
+			},
+			error: function(result, error) {
+				util.errorTost();
 			}
-		})
-	} else {
+		});
+	} else if(swicth) {
 		wx.showToast({
 			title: '笔记空空',
 			icon: 'loading',
@@ -69,33 +49,23 @@ function addNoteApi(swicth) {
 };
 
 Page({
-	data: {
-		isNew: false,
-		focus: false,
-		input_title: '',
-		sendBtn: 'sendBtn',
-	},
+	data: {},
 	onLoad: function(options) {
-		that = this;
-		// 动态设置textarea高度
+		var that = this;
+		inputContent[2] = options.id;
 		wx.getSystemInfo({
 			success: function(res) {
-				var tempHeight = res.windowHeight;
-				tempHeight = tempHeight - 90;
 				that.setData({
-					texth: tempHeight,
+					ContentTextHeight: res.windowHeight - 90,
 				});
 
 			}
 		})
-		this.setData({
-			now_time: util.getNowTimeformat(),
-		});
 	},
 
 	onShow: function() {
-		over.input_content = '';
-		over.input_title = '';
+		inputContent[1] = '';
+		inputContent[0] = '';
 		wx.getStorage({
 			key: 'noteData',
 			success: function(res) {
@@ -106,24 +76,19 @@ Page({
 
 	onReady: function() {},
 
-	zhengzai_input: function(e) {
-		over.input_content = e.detail.value;
-		over.input_title = over.input_content.substr(0, 20);
-		if(over.input_title.indexOf("\n") > -1) {
-			over.input_title = over.input_title.substr(0, over.input_title.indexOf("\n"));
+	contentInput: function(e) {
+		inputContent[1] = e.detail.value;
+		inputContent[0] = inputContent[1].substr(0, 20);
+		if(inputContent[0].indexOf("\n") > -1) {
+			inputContent[0] = inputContent[0].substr(0, inputContent[0].indexOf("\n"));
 		}
 
 	},
 
 	okClick: function(e) {
-		addNoteApi();
+		addNote(true);
 	},
-
-	cancle: function() {
-		wx.navigateBack();
-	},
-
 	onUnload: function() {
-		addNoteApi();
+		addNote(false);
 	},
 });

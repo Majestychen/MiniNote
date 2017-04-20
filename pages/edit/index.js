@@ -64,11 +64,7 @@ function goSave() {
 		},
 		error: function(object, error) {
 			console.log(error)
-			wx.showToast({
-				title: '网络故障,请重试',
-				icon: 'loading',
-				duration: 600
-			})
+			util.errorTost();
 		}
 	});
 };

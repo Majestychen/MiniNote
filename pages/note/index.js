@@ -180,7 +180,7 @@ Page({
 		wx.showToast({
 			title: '同步中...',
 			icon: 'loading',
-			duration: 3333
+			duration: 9999
 		})
 		noteVillage[1] = false;
 		that = this;
@@ -273,7 +273,7 @@ Page({
 			data: false,
 			success: function(res) {
 				wx.navigateTo({
-					url: '../create/index'
+					url: '../create/index?id='+noteVillage[0]
 				})
 			},
 		})

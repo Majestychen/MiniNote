@@ -4,9 +4,7 @@ const util = require('utils/util.js');
 Bmob.initialize(appParam.bmob.id, appParam.bmob.key);
 
 App({
-	onLaunch: function() {
-
-	},
+	onLaunch: function() {},
 	onHide: function() {},
 	getUserInfo: function(cb) {
 		var that = this
