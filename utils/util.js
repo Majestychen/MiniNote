@@ -12,7 +12,22 @@ function formatNumber(n) {
 	n = n.toString()
 	return n[1] ? n : '0' + n
 };
-
+function setClip(data) {
+	wx.setClipboardData({
+		data: data,
+		success: function(res) {
+			wx.getClipboardData({
+				success: function(res) {
+					wx.showToast({
+						title: '已复制到剪切板',
+						icon: 'success',
+						duration: 1200
+					})
+				}
+			})
+		}
+	})
+};
 function getNoteData(openId) {
 	const Bmob = require('../lib/bmob.js');
 	var Diary_note = Bmob.Object.extend("user_note");
@@ -75,4 +90,5 @@ module.exports = {
 	getNowTimeformat: getNowTimeformat,
 	getNoteData:getNoteData,
 	errorTost:errorTost,
+	setClip:setClip,
 };
