@@ -2,8 +2,9 @@
 const app = getApp();
 const util = app.util;
 const Bmob = require('../../lib/bmob.js');
-var inputContent = []; //0:title 1:content //2:openid
+var inputContent = []; //0:title 1:content //2:openid //3:是否已经点过保存按钮
 var noteData = [];
+var realSave=false;
 
 function changeNoteData(noteData) {
 	wx.setStorage({
@@ -37,9 +38,11 @@ function addNote(swicth) {
 			},
 			error: function(result, error) {
 				util.errorTost();
+				realSave=false;
 			}
 		});
 	} else if(swicth) {
+		realSave=false;
 		wx.showToast({
 			title: '笔记空空',
 			icon: 'loading',
@@ -65,7 +68,7 @@ Page({
 
 	onShow: function() {
 		inputContent[1] = '';
-		inputContent[0] = '';
+		inputContent[0] = ''; 
 		wx.getStorage({
 			key: 'noteData',
 			success: function(res) {
@@ -82,13 +85,15 @@ Page({
 		if(inputContent[0].indexOf("\n") > -1) {
 			inputContent[0] = inputContent[0].substr(0, inputContent[0].indexOf("\n"));
 		}
-
 	},
 
 	okClick: function(e) {
 		addNote(true);
+		realSave = true;
 	},
 	onUnload: function() {
-		addNote(false);
+		if(!realSave) {
+			addNote(false);
+		}
 	},
 });

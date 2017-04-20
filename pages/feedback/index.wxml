@@ -1,13 +1,12 @@
 <!--pages/feedback/index.wxml-->
-<view class="bigman">
 	<view class="container">
-		<view class='wenti'>
+		<view class='th'>
 			问题和意见
 		</view>
 		<view class='row' catchtap="onFocus">
-			<textarea bindconfirm="zhengzai_input1" bindblur="zhengzai_input" class='text' maxlength="4000" focus="{{focus_input}}" name="content" placeholder="问题/意见描述" />
+			<textarea bindblur="feedbackContentInput" class='text' maxlength="4000" focus="{{focus_input}}" name="content" placeholder="问题/意见描述" />
 		</view>
-		<view class='wenti'>
+		<view class='th'>
 			图片(选填,上传问题截图,10张以内)
 		</view>
 		<view class='row'>
@@ -23,14 +22,13 @@
 			</view>
 			<view class='clear'></view>
 		</view>
-		<view class='wenti'>
+		<view class='th'>
 			您的联系方式
 		</view>
-		<view class='title' bindtap="auto_function">
+		<view class='title' bindtap="phoneNumberInput">
 			<input name="title" type="text" bindblur="q_title_input" maxlength='32' placeholder="(选填,用于接受反馈结果)" value="" />
 		</view>
-		<view class='sendBtn' bindtap="submit">
+		<view class='sendBtn' bindtap="sendBtnClick">
 			发送
 		</view>
 	</view>
-</view>

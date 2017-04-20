@@ -1,8 +1,9 @@
 //pages/feedback/index.js
 const Bmob = require('../../lib/bmob.js');
+var fbBmob = Bmob.Object.extend("user_feedback");
 const app = getApp();
-var input_zhengzai = '';
-var input_title = '';
+var feedbackContent = '';
+var contactContent = '';
 var chooseImg = [];
 var tempPaths = '';
 var tempFile_num = 0;
@@ -30,7 +31,6 @@ Page({
 			sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
 			success: function(res) {
 				// 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片  
-				var fbBmob = Bmob.Object.extend("user_feedback");
 				var addFeedback = new fbBmob();
 				var name = res.tempFilePaths + ".jpg"; //上传的图片的别名
 				var file = new Bmob.File(name, res.tempFilePaths);
@@ -73,27 +73,21 @@ Page({
 		}
 
 	},
-
-	// 反馈内容
-	q_title_input: function(e) {
-		input_title = e.detail.value;
+ 
+	phoneNumberInput: function(e) {
+		contactContent = e.detail.value;
 	},
 
-	// 联系方式
-	zhengzai_input: function(e) {
-		input_zhengzai = e.detail.value;
+	feedbackContentInput: function(e) {
+		feedbackContent = e.detail.value;
 	},
-
-	// 提交笔记事件
-	submit: function(e) {
-		var Diary_q_1 = Bmob.Object.extend("user_feedback");
-		var diary_q_1 = new Diary_q_1();
-		var q_temp_username = ''
+	sendBtnClick: function(e) {
+		var diary_q_1 = new fbBmob();
 		wx.getStorage({
 			key: 'user_openid',
 			success: function(res) {
 				diary_q_1.set("user_openid_wechat", res.data);
-				if(input_zhengzai) {
+				if(feedbackContent) {
 					if(tempPaths.length > 0) {
 						var name = res.data + '/' + tempFile_num + ".jpg"; //上传的图片的别名
 						var file = new Bmob.File(name, tempPaths);
@@ -101,28 +95,17 @@ Page({
 						// 状态
 						diary_q_1.set("status", '有图' + name);
 					}
-
-					// 用户的联系方式
-					diary_q_1.set("contact", input_title);
-
-					diary_q_1.set("feedback", input_zhengzai);
-					//添加数据，第一个入口参数是null
+					diary_q_1.set("contact", contactContent);
+					diary_q_1.set("feedback", feedbackContent);
 					diary_q_1.save(null, {
 						success: function(result) {
-							// 添加成功，返回成功之后的objectId（注意：返回的属性名字是id，不是objectId），你还可以在Bmob的Web管理后台看到对应的数据
-							// console.log("日记创建成功, objectId:"+result.id);
-
 							wx.showToast({
 								title: '感谢您的意见 ^_^',
 								icon: 'success',
 								duration: 1226
 							})
-							//  返回主界面
-							// 在C页面内 navigateBack，将返回A页面
 							setTimeout(function() {
-								wx.navigateBack({
-									url: '../mine/index'
-								})
+								wx.navigateBack();
 							}, 1226);
 
 						},
