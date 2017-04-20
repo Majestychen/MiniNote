@@ -196,17 +196,6 @@ Page({
 		}
 	},
 
-	btnHover: function() {
-		that.setData({
-			sendBtn: 'sendBtnHover',
-		});
-	},
-	btnHoverend: function() {
-		that.setData({
-			sendBtn: 'sendBtn',
-		});
-	},
-
 	// 页面卸载
 	onUnload: function() {
 

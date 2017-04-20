@@ -8,7 +8,6 @@ var over = {
 	input_content: '',
 	temp_consle: [],
 	editData: [],
-	editFirst: true,
 };
 var noteData = [];
 
@@ -37,7 +36,7 @@ function changeNoteData(noteData) {
 };
 
 function goSubmit(swicth) {
-	if(over.input_title != '') {
+	if(over.input_content != '' || over.input_title != '') {
 		var Diary_q_1 = Bmob.Object.extend("user_note");
 		var diary_q_1 = new Diary_q_1();
 		wx.getStorage({
@@ -54,7 +53,6 @@ function goSubmit(swicth) {
 						changeNoteData(noteData);
 					},
 					error: function(result, error) {
-						over.editFirst = true;
 						errorTost();
 					}
 				});
@@ -67,17 +65,7 @@ function goSubmit(swicth) {
 			icon: 'loading',
 			duration: 666
 		})
-
 	}
-
-	that.setData({
-		sendBtn: 'sendBtnHover',
-	});
-	setTimeout(function() {
-		that.setData({
-			sendBtn: 'sendBtn',
-		});
-	}, 100);
 };
 
 Page({
@@ -108,7 +96,6 @@ Page({
 	onShow: function() {
 		over.input_content = '';
 		over.input_title = '';
-		over.editFirst = true;
 		wx.getStorage({
 			key: 'noteData',
 			success: function(res) {
@@ -117,9 +104,7 @@ Page({
 		})
 	},
 
-	onReady: function() {
-
-	},
+	onReady: function() {},
 
 	zhengzai_input: function(e) {
 		over.input_content = e.detail.value;
@@ -131,10 +116,7 @@ Page({
 	},
 
 	submit: function(e) {
-		if(over.editFirst) {
-			goSubmit(1);
-			over.editFirst = false;
-		}
+		goSubmit();
 	},
 
 	cancle: function() {
@@ -142,21 +124,6 @@ Page({
 	},
 
 	onUnload: function() {
-		if(over.input_content || over.input_title) {
-			if(over.editFirst) {
-				goSubmit(0);
-			}
-		}
-	},
-
-	btnHover: function() {
-		that.setData({
-			sendBtn: 'sendBtnHover',
-		});
-	},
-	btnHoverend: function() {
-		that.setData({
-			sendBtn: 'sendBtn',
-		});
+		goSubmit();
 	},
 });

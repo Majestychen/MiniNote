@@ -5,26 +5,7 @@ Bmob.initialize(appParam.bmob.id, appParam.bmob.key);
 
 App({
 	onLaunch: function() {
-		wx.login({
-			success: function(code) {
-				wx.request({
-					url: appParam.apiUrl.openId,
-					data: {
-						appid: appParam.wxApp.appKey,
-						secret: appParam.wxApp.secret,
-						js_code: code.code,
-						grant_type: 'authorization_code'
-					},
-					success: function(res) {
-						util.getNoteData(res.data.openid);
-						wx.setStorage({
-							key: "user_openid",
-							data: res.data.openid
-						});
-					}
-				})
-			}
-		});
+
 	},
 	onHide: function() {},
 	getUserInfo: function(cb) {

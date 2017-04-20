@@ -2,7 +2,7 @@
 const app = getApp();
 const appParam = app.appParam;
 const Bmob = require('../../lib/bmob.js');
-const util=app.util;
+const util = app.util;
 var that;
 var noteData = [];
 var noteVillage = []; //0:userOpenId //1模拟按钮触摸效果
@@ -90,36 +90,57 @@ function compareNoteData(results) {
 	})
 };
 
-function requestNoteData(firstLoad) {
-	wx.getStorage({
-		key: 'user_openid',
-		success: function(openId) {
-			noteVillage[0] = openId.data;
-			var Diary_note = Bmob.Object.extend("user_note");
-			var query = new Bmob.Query(Diary_note);
-			query.equalTo("user_openid_wechat", openId.data);
-			query.select("note_title");
-			query.select("note_date");
-			query.select("note_content");
-			query.select("objectId");
-			query.select("date");
-			query.descending("date");
-			query.limit(1000);
-			query.find({
-				success: function(results) {
-					that.setData({
-						diaryList: results,
-					});
-					noteData = results;
-					setTimeout(function() {
-						wx.hideToast()
-					}, 700)
-					compareNoteData();
+function getUserOpenId() {
+	wx.login({
+		success: function(code) {
+			wx.request({
+				url: appParam.apiUrl.openId,
+				data: {
+					appid: appParam.wxApp.appKey,
+					secret: appParam.wxApp.secret,
+					js_code: code.code,
+					grant_type: 'authorization_code'
 				},
-				error: function(error) {
-					retry();
+				success: function(openIdResult) {
+					util.getNoteData(openIdResult.data.openid);
+					wx.setStorage({
+						key: "user_openid",
+						data: openIdResult.data.openid,
+						success: function() {
+							requestNoteData(openIdResult.data.openid);
+						},
+					});
 				}
+			})
+		}
+	});
+};
+
+function requestNoteData(openId) {
+	noteVillage[0] = openId;
+	var Diary_note = Bmob.Object.extend("user_note");
+	var query = new Bmob.Query(Diary_note);
+	query.equalTo("user_openid_wechat", openId);
+	query.select("note_title");
+	query.select("note_date");
+	query.select("note_content");
+	query.select("objectId");
+	query.select("date");
+	query.descending("date");
+	query.limit(1000);
+	query.find({
+		success: function(results) {
+			that.setData({
+				diaryList: results,
 			});
+			noteData = results;
+			setTimeout(function() {
+				wx.hideToast()
+			}, 700)
+			compareNoteData();
+		},
+		error: function(error) {
+			retry();
 		}
 	});
 };
@@ -133,7 +154,7 @@ function getNoteDataSt() {
 			});
 		},
 		complete: function(res) {
-			requestNoteData();
+			getUserOpenId();
 		},
 	})
 };
