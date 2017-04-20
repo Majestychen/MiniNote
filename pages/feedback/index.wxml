@@ -1,34 +1,35 @@
 <!--pages/feedback/index.wxml-->
-	<view class="container">
-		<view class='th'>
-			问题和意见
-		</view>
-		<view class='row' catchtap="onFocus">
-			<textarea bindblur="feedbackContentInput" class='text' maxlength="4000" focus="{{focus_input}}" name="content" placeholder="问题/意见描述" />
-		</view>
-		<view class='th'>
-			图片(选填,上传问题截图,10张以内)
-		</view>
-		<view class='row'>
-			<image class='chooseImg {{chooseImgBtn}}' src="http://mininote-1251903635.costj.myqcloud.com/add_group_member.png" bindtap='chooseImgClick'>
-			</image>
-			<view class='chooseImgBox'  wx:for='{{src}}'>
-				<view class='chooseImgBottom'id='{{item}}' bindtap='deleteImgClick'>
-					<image class='deleteBtn' src="http://mininote-1251903635.costj.myqcloud.com/delete.png">
-					</image>
-				</view>
-				<image class='chooseImg'  src="{{item}}">
+<view class="container">
+	<view class='th'>
+		问题和意见
+	</view>
+	<view class='row' catchtap="onFocus">
+		<textarea bindblur="feedbackContentInput" class='text' maxlength="4000" focus="{{focus_input}}" name="content" placeholder="问题/意见描述" />
+	</view>
+	<view class='th'>
+		图片(选填,上传问题截图,10张以内)
+	</view>
+	<view class='row'>
+		<image class='chooseImg {{chooseImgBtn}}' src="http://mininote-1251903635.costj.myqcloud.com/add_group_member.png" bindtap='chooseImgClick'>
+		</image>
+		<view class='chooseImgBox'  wx:for='{{src}}'>
+			<view class='chooseImgBottom'id='{{item}}' bindtap='deleteImgClick'>
+				<image class='deleteBtn' src="http://mininote-1251903635.costj.myqcloud.com/delete.png">
 				</image>
 			</view>
-			<view class='clear'></view>
+			<image class='chooseImg'  src="{{item}}">
+			</image>
 		</view>
-		<view class='th'>
-			您的联系方式
-		</view>
-		<view class='title' bindtap="phoneNumberInput">
-			<input name="title" type="text" bindblur="q_title_input" maxlength='32' placeholder="(选填,用于接受反馈结果)" value="" />
-		</view>
-		<view class='sendBtn' bindtap="sendBtnClick">
-			发送
+		<view class='clear'>
 		</view>
 	</view>
+	<view class='th'>
+		您的联系方式
+	</view>
+	<view class='title' >
+		<input name="title" type="text" bindblur="phoneNumberInput" maxlength='45' placeholder="(选填,用于接受反馈结果)" value="" />
+	</view>
+	<view class='sendBtn' bindtap="sendBtnClick">
+		发送
+	</view>
+</view>
