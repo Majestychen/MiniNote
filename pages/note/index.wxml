@@ -22,7 +22,7 @@
       <view class='item notepad '>
         <view class='content'>
           <view class='txt'  catchlongtap='listShortcutClick'>
-            <text>长按可弹出快捷菜单 😄\n</text>
+            <text>长按可复制或删除 😄\n</text>
             <text class="note-date">欢迎使用微信小程序 ^_^</text>
           </view>
           <image class="listShortBtn" id="{{item.objectId}}" bindtap="listShortcutClick" src="http://mininote-1251903635.costj.myqcloud.com/q_diandian_new.png">

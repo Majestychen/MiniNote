@@ -7,6 +7,28 @@ var that;
 var noteData = [];
 var noteVillage = []; //0:userOpenId //1模拟按钮触摸效果
 
+function getNoteData(openId) {
+	var query = new Bmob.Query(Bmob.Object.extend("user_note"));
+	query.equalTo("user_openid_wechat", openId);
+	query.select("note_title");
+	query.select("note_date");
+	query.select("note_content");
+	query.select("objectId");
+	query.select("date");
+	query.descending("date");
+	query.limit(1000);
+	query.find({
+		success: function(results) {
+			noteData=results;
+			wx.setStorage({
+				key: "noteData",
+				data: results
+			});
+		},
+		error: function(error) {}
+	});
+};
+
 function deleteNote(objectId) {
 	var query = new Bmob.Query(Bmob.Object.extend("user_note"));
 	query.equalTo("objectId", objectId);
@@ -15,7 +37,7 @@ function deleteNote(objectId) {
 			object.destroy({
 				success: function(deleteObject) {
 					that.onShow();
-					util.getNoteData(objectId);
+					getNoteData(objectId);
 				},
 				error: function(object, error) {
 					retry();
@@ -47,10 +69,16 @@ function deleteNoteMenu(objectId) {
 function longClickMenu(e) {
 	var objectId = e.target.id ? e.target.id : e.currentTarget.id;
 	wx.showActionSheet({
-		itemList: ['删除'],
+		itemList: ['复制', '删除'],
 		success: function(res) {
-			if(res.tapIndex == 0) {
+			if(res.tapIndex == 1) {
 				deleteNoteMenu(objectId);
+			} else if(res.tapIndex == 0) {
+				for(var i = 0; i < noteData.length; i++) {
+					if(noteData[i].id == objectId) {
+						util.setClip(noteData[i].attributes.note_content);
+					}
+				}
 			}
 			noteVillage[1] = false;
 		},
@@ -102,7 +130,7 @@ function getUserOpenId() {
 					grant_type: 'authorization_code'
 				},
 				success: function(openIdResult) {
-					util.getNoteData(openIdResult.data.openid);
+					getNoteData(openIdResult.data.openid);
 					wx.setStorage({
 						key: "user_openid",
 						data: openIdResult.data.openid,
@@ -273,7 +301,7 @@ Page({
 			data: false,
 			success: function(res) {
 				wx.navigateTo({
-					url: '../create/index?id='+noteVillage[0]
+					url: '../create/index?id=' + noteVillage[0]
 				})
 			},
 		})

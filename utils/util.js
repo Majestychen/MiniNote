@@ -28,28 +28,7 @@ function setClip(data) {
 		}
 	})
 };
-function getNoteData(openId) {
-	const Bmob = require('../lib/bmob.js');
-	var Diary_note = Bmob.Object.extend("user_note");
-	var query = new Bmob.Query(Diary_note);
-	query.equalTo("user_openid_wechat", openId);
-	query.select("note_title");
-	query.select("note_date");
-	query.select("note_content");
-	query.select("objectId");
-	query.select("date");
-	query.descending("date");
-	query.limit(1000);
-	query.find({
-		success: function(results) {
-			wx.setStorage({
-				key: "noteData",
-				data: results
-			});
-		},
-		error: function(error) {}
-	});
-};
+
 // 获取当前时间,并格式化
 function getNowTimeformat() {
 	var myDate2 = new Date();
@@ -88,7 +67,6 @@ function errorTost() {
 module.exports = {
 	formatTime: formatTime,
 	getNowTimeformat: getNowTimeformat,
-	getNoteData:getNoteData,
 	errorTost:errorTost,
 	setClip:setClip,
 };
