@@ -29,7 +29,6 @@ function setClip(data) {
 	})
 };
 
-// 获取当前时间,并格式化
 function getNowTimeformat() {
 	var myDate2 = new Date();
 	var now_call_hour = '';
