@@ -7,7 +7,7 @@
 	<view class="operations">
 		<navigator url="../feedback/index" open-type='navigate' hover-class="navigator-hover">反馈</navigator>
 		<navigator url="../help/index" open-type='navigate' hover-class="navigator-hover">文档</navigator>
+		<!--<navigator url="../sponsor/index" open-type='navigate' hover-class="navigator-hover">打赏</navigator>-->
 		<view bindtap="aboutmeClick">关于</view>
-		<navigator url="../update/index" open-type='navigate' class='version' hover-class="navigator-hover">{{version}}</navigator>
 	</view>
 </view>

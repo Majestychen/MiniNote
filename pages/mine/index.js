@@ -13,17 +13,22 @@ Page({
 		app.getUserInfo(function(userInfo) {
 			that.setData({
 				userInfo: userInfo,
-				version: appParam.wxApp.version,
 			})
 		})
 
 	},
 	aboutmeClick: function() {
 		wx.showActionSheet({
-			itemList: ['author:Q', 'HaoleiQ@gmail.com'],
+			itemList: ['山东大叶榕信息科技有限公司', 'HaoleiQ@gmail.com', '版本:v' + appParam.wxApp.version],
 			success: function(res) {
-				if(res.tapIndex == 1) {
+				if(res.tapIndex == 0) {
+					util.setClip('山东大叶榕信息科技有限公司');
+				} else if(res.tapIndex == 1) {
 					util.setClip('HaoleiQ@gmail.com');
+				} else if(res.tapIndex == 2) {
+					wx.navigateTo({
+						url: '../update/index'
+					})
 				}
 			},
 		})

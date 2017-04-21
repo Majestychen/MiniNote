@@ -6,8 +6,8 @@
 		</text>
 	</view>
 	<view class='box-wxpay'>
-		<image class='box-wxpay' src="http://ojuwy6uww.bkt.clouddn.com/mypay.jpg">
-		</image>
+		<image class='box-wxpay' src="http://ojuwy6uww.bkt.clouddn.com/mypay.jpg"></image>
+		打赏金额
 	</view>
 	<view class='payStyle'>
 		<text>
