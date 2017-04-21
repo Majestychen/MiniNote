@@ -162,7 +162,7 @@ function requestNoteData(openId) {
 				diaryList: results,
 			});
 			noteData = results;
-			wx.hideToast();
+			wx.hideNavigationBarLoading();
 			compareNoteData();
 		},
 		error: function(error) {
@@ -205,11 +205,7 @@ Page({
 		diaryListSwitch: true,
 	},
 	onLoad: function(this_object) {
-		wx.showToast({
-			title: '同步中...',
-			icon: 'loading',
-			duration: 9999
-		})
+		wx.showNavigationBarLoading();
 		noteVillage[1] = false;
 		that = this;
 	},
