@@ -1,7 +1,7 @@
 //pages/mine/index.js
 const app = getApp();
 const appParam = app.appParam;
-const util=app.util;
+const util = app.util;
 var that;
 
 Page({
@@ -20,16 +20,10 @@ Page({
 	},
 	aboutmeClick: function() {
 		wx.showActionSheet({
-			itemList: ['author:Q', 'www.qinhaolei.com', 'haoleiqin@qq.com'],
+			itemList: ['author:Q', 'HaoleiQ@gmail.com'],
 			success: function(res) {
-				if(res.tapIndex == 0) {
-					wx.navigateTo({
-						url: "../sponsor/index",
-					})
-				} else if(res.tapIndex == 1) {
-					util.setClip('www.QinHaolei.com');
-				} else if(res.tapIndex == 2) {
-					util.setClip('HaoleiQin@qq.com');
+				if(res.tapIndex == 1) {
+					util.setClip('HaoleiQ@gmail.com');
 				}
 			},
 		})

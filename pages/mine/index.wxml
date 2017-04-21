@@ -1,24 +1,13 @@
 <!--pages/mine/index.wxml-->
 <view class="mainBox">
 	<view class="userHeadPortrait">
-		<image mode="aspectFill" src="{{userInfo.avatarUrl}}">
-		</image>
-		<text>
-			{{userInfo.nickName}}
-		</text>
+		<image mode="aspectFill" src="{{userInfo.avatarUrl}}"></image>
+		<text>{{userInfo.nickName}}</text>
 	</view>
 	<view class="operations">
-		<navigator url="../feedback/index" open-type='navigate' hover-class="navigator-hover">
-			反馈
-		</navigator>
-		<navigator url="../help/index" open-type='navigate' hover-class="navigator-hover">
-			文档
-		</navigator>
-		<view bindtap="aboutmeClick">
-			关于
-		</view>
-		<navigator url="../update/index" open-type='navigate' class='version' hover-class="navigator-hover">
-			{{version}}
-		</navigator>
+		<navigator url="../feedback/index" open-type='navigate' hover-class="navigator-hover">反馈</navigator>
+		<navigator url="../help/index" open-type='navigate' hover-class="navigator-hover">文档</navigator>
+		<view bindtap="aboutmeClick">关于</view>
+		<navigator url="../update/index" open-type='navigate' class='version' hover-class="navigator-hover">{{version}}</navigator>
 	</view>
 </view>

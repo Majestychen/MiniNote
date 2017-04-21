@@ -14,7 +14,9 @@ page {
 	margin-top: 50rpx;
 	z-index: 1;
 }
-
+.search icon{
+	float: left;
+}
 .noteListBox {
 	background: #f8f8f8;
 	font-family: '微软雅黑';
