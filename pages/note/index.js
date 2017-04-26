@@ -216,13 +216,20 @@ Page({
 
 	listShortcutClick: function() {
 		wx.showActionSheet({
-			itemList: ['编辑', '删除'],
+			itemList: ['复制', '删除'],
 			success: function(res) {
 				if(res.tapIndex == 1) {
 					wx.showToast({
 						title: '该提示将在新建后自动删除',
 						icon: 'success',
-						duration: 3000
+						duration: 2500
+					})
+				}	
+				if(res.tapIndex == 0) {
+					wx.showToast({
+						title: '内容复制成功',
+						icon: 'success',
+						duration: 1000
 					})
 				}
 			},
