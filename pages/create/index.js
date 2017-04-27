@@ -33,7 +33,7 @@ function addNote(swicth) {
 		addNoteB.set("note_content", inputContent[1]);
 		addNoteB.save(null, {
 			success: function(result) {
-				noteData.push(result);
+				noteData.push(result); 
 				changeNoteData(noteData);
 			},
 			error: function(result, error) {

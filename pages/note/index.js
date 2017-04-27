@@ -5,11 +5,11 @@ const Bmob = require('../../lib/bmob.js');
 const util = app.util;
 var that;
 var noteData = [];
-var noteVillage = []; //0:userOpenId //1模拟按钮触摸效果
+var noteVillage = []; //0:userOpenId //1模拟按钮触摸效果 //2:objectID
 
-function getNoteData(openId) {
+function getNoteData() {
 	var query = new Bmob.Query(Bmob.Object.extend("user_note"));
-	query.equalTo("user_openid_wechat", openId);
+	query.equalTo("user_openid_wechat", noteVillage[0]);   
 	query.select("note_title");
 	query.select("note_date");
 	query.select("note_content");
@@ -18,7 +18,7 @@ function getNoteData(openId) {
 	query.descending("date");
 	query.limit(1000);
 	query.find({
-		success: function(results) {
+		success: function(results) { 
 			noteData=results;
 			wx.setStorage({
 				key: "noteData",
@@ -29,15 +29,14 @@ function getNoteData(openId) {
 	});
 };
 
-function deleteNote(objectId) {
-	var query = new Bmob.Query(Bmob.Object.extend("user_note"));
-	query.equalTo("objectId", objectId);
-	query.get(objectId, {
+function deleteNote() {
+	var query = new Bmob.Query(Bmob.Object.extend("user_note")); 
+	query.get(noteVillage[2], {
 		success: function(object) {
 			object.destroy({
 				success: function(deleteObject) {
 					that.onShow();
-					getNoteData(objectId);
+					getNoteData();
 				},
 				error: function(object, error) {
 					retry();
@@ -50,15 +49,15 @@ function deleteNote(objectId) {
 	});
 };
 
-function deleteNoteMenu(objectId) {
+function deleteNoteMenu() {
 	for(var i = 0; i < noteData.length; i++) {
-		if(noteData[i].id == objectId) {
+		if(noteData[i].id == noteVillage[2]) {
 			wx.showModal({
 				title: '确定删除?',
 				content: '标题:' + noteData[i].attributes.note_title,
 				success: function(res) {
 					if(res.confirm) {
-						deleteNote(objectId);
+						deleteNote(noteVillage[2]);
 					}
 				}
 			});
@@ -67,12 +66,12 @@ function deleteNoteMenu(objectId) {
 }
 
 function longClickMenu(e) {
-	var objectId = e.target.id ? e.target.id : e.currentTarget.id;
+	noteVillage[2] = e.target.id ? e.target.id : e.currentTarget.id;
 	wx.showActionSheet({
 		itemList: ['复制', '删除'],
 		success: function(res) {
 			if(res.tapIndex == 1) {
-				deleteNoteMenu(objectId);
+				deleteNoteMenu();
 			} else if(res.tapIndex == 0) {
 				for(var i = 0; i < noteData.length; i++) {
 					if(noteData[i].id == objectId) {
@@ -130,12 +129,13 @@ function getUserOpenId() {
 					grant_type: 'authorization_code'
 				},
 				success: function(openIdResult) {
-					getNoteData(openIdResult.data.openid);
+					noteVillage[0]=openIdResult.data.openid;
+					getNoteData();
 					wx.setStorage({
 						key: "user_openid",
 						data: openIdResult.data.openid,
 						success: function() {
-							requestNoteData(openIdResult.data.openid);
+							requestNoteData();
 						},
 					});
 				}
@@ -144,11 +144,10 @@ function getUserOpenId() {
 	});
 };
 
-function requestNoteData(openId) {
-	noteVillage[0] = openId;
+function requestNoteData() { 
 	var Diary_note = Bmob.Object.extend("user_note");
 	var query = new Bmob.Query(Diary_note);
-	query.equalTo("user_openid_wechat", openId);
+	query.equalTo("user_openid_wechat", noteVillage[0]);
 	query.select("note_title");
 	query.select("note_date");
 	query.select("note_content");
@@ -174,7 +173,7 @@ function requestNoteData(openId) {
 function getNoteDataSt() {
 	wx.getStorage({
 		key: 'noteData',
-		success: function(res) {
+		success: function(res) { 
 			that.setData({
 				diaryList: res.data,
 			});
