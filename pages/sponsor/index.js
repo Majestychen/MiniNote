@@ -1,8 +1,9 @@
 //pages/sponsor/index.js
-var app = getApp()
-var Bmob = require('../../lib/bmob.js');
-var Diary = Bmob.Object.extend("user_note");
+var app = getApp();
+var Bmob = require('../../lib/bmob.js'); 
 var that;
+var sponsorMoney = 0;
+
 function retry() {
 	wx.showModal({
 		title: '网络出问题啦',
@@ -15,6 +16,20 @@ function retry() {
 		}
 	});
 };
+
+function getUserOpenid() {
+	wx.getStorage({
+		key: "user_openid",
+		success: function(openIdResult) {
+			paySponsor(openIdResult.data);
+		},
+	});
+};
+
+function paySponsor(openId) {
+	 
+};
+
 Page({
 
 	data: {},
@@ -46,5 +61,13 @@ Page({
 			duration: 666
 		})
 		wx.stopPullDownRefresh();
+	},
+
+	moneyInput: function(e) {
+		sponsorMoney = e.detail.value;
+	},
+
+	payBtnClick: function() {
+		getUserOpenid();
 	},
 })

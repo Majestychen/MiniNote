@@ -6,14 +6,15 @@
 		</text>
 	</view>
 	<view class='box-wxpay'>
-		<image class='box-wxpay' src="http://ojuwy6uww.bkt.clouddn.com/mypay.jpg"></image>
-		打赏金额
+		<!--<image class='box-wxpay' src="http://ojuwy6uww.bkt.clouddn.com/mypay.jpg"></image>-->
+	    <input type="digit" placeholder="输入打赏金额" bindinput="moneyInput" /> <button bindtap="payBtnClick">√</button>
 	</view>
-	<view class='payStyle'>
+	<view class='clear'></view>
+	<!--<view class='payStyle'>
 		<text>
 			微信号:holysoulmate 支付宝:HaoleiQin@qq.com
 		</text>
-	</view>
+	</view>-->
 	<view class="tr">
 		<text>
 			您的捐赠将被用于:
