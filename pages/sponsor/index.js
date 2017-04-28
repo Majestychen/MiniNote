@@ -1,6 +1,6 @@
 //pages/sponsor/index.js
 var app = getApp();
-var Bmob = require('../../lib/bmob.js'); 
+var Bmob = require('../../lib/bmob.js');
 var that;
 var sponsorMoney = 0;
 
@@ -26,8 +26,9 @@ function getUserOpenid() {
 	});
 };
 
+
+
 function paySponsor(openId) {
-	 
 };
 
 Page({
