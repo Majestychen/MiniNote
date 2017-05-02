@@ -25,14 +25,14 @@ Page({
 			count: 1, // 默认9
 			sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
 			sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-			success: function(res) {
+			success: function(chooseImageRes) {
 				// 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片  
-				var name = res.tempFilePaths + ".jpg"; //上传的图片的别名
-				var file = new Bmob.File(name, res.tempFilePaths);
+				var name = chooseImageRes.tempFilePaths + ""; //上传的图片的别名
+				var file = new Bmob.File(name, chooseImageRes.tempFilePaths);
 				// 最多上传10张图
 				if(tempPathArr.length < 11) {
 					file.save().then(function(res) {
-						feedbackContent = "有图:" + feedbackContent;
+						feedbackContent = "反馈截图上传成功" + "";
 						tempPathArr.push(res.url());
 						that.setData({
 							src: tempPathArr,
