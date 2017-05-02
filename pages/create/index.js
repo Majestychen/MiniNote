@@ -5,7 +5,7 @@ const Bmob = require('../../lib/bmob.js');
 var inputContent = []; //0:title 1:content //2:openid //3:是否已经点过保存按钮
 var noteData = [];
 
-function changeNoteData(noteData) {
+function changeNoteData(noteData, swicth) {
 	wx.setStorage({
 		key: 'noteData',
 		data: noteData,
@@ -14,7 +14,9 @@ function changeNoteData(noteData) {
 				key: 'dataChange',
 				data: true,
 				success: function(res) {
-					wx.navigateBack();
+					if(swicth) {
+						wx.navigateBack();
+					}
 				},
 			})
 		},
@@ -34,7 +36,7 @@ function addNote(swicth) {
 			addNoteB.save(null, {
 				success: function(result) {
 					noteData.push(result);
-					changeNoteData(noteData);
+					changeNoteData(noteData, swicth);
 				},
 				error: function(result, error) {
 					util.errorTost();
