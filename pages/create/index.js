@@ -4,7 +4,6 @@ const util = app.util;
 const Bmob = require('../../lib/bmob.js');
 var inputContent = []; //0:title 1:content //2:openid //3:是否已经点过保存按钮
 var noteData = [];
-var realSave=false;
 
 function changeNoteData(noteData) {
 	wx.setStorage({
@@ -23,31 +22,33 @@ function changeNoteData(noteData) {
 };
 
 function addNote(swicth) {
-	if(inputContent[1] != '' || inputContent[0] != '' && inputContent[2]) {
-		var userNote = Bmob.Object.extend("user_note");
-		var addNoteB = new userNote();
-		addNoteB.set("user_openid_wechat", inputContent[2]);
-		addNoteB.set("note_title", inputContent[0]);
-		addNoteB.set("note_date", util.getNowTimeformat());
-		addNoteB.set("date", new Date().getTime());
-		addNoteB.set("note_content", inputContent[1]);
-		addNoteB.save(null, {
-			success: function(result) {
-				noteData.push(result); 
-				changeNoteData(noteData);
-			},
-			error: function(result, error) {
-				util.errorTost();
-				realSave=false;
+	if(!inputContent[3]) {
+		if(inputContent[1] != '' || inputContent[0] != '' && inputContent[2]) {
+			var userNote = Bmob.Object.extend("user_note");
+			var addNoteB = new userNote();
+			addNoteB.set("user_openid_wechat", inputContent[2]);
+			addNoteB.set("note_title", inputContent[0]);
+			addNoteB.set("note_date", util.getNowTimeformat());
+			addNoteB.set("date", new Date().getTime());
+			addNoteB.set("note_content", inputContent[1]);
+			addNoteB.save(null, {
+				success: function(result) {
+					noteData.push(result);
+					changeNoteData(noteData);
+				},
+				error: function(result, error) {
+					util.errorTost();
+				}
+			});
+		} else {
+			if(swicth) {
+				wx.showToast({
+					title: '笔记空空',
+					icon: 'loading',
+					duration: 666
+				})
 			}
-		});
-	} else if(swicth) {
-		realSave=false;
-		wx.showToast({
-			title: '笔记空空',
-			icon: 'loading',
-			duration: 666
-		})
+		}
 	}
 };
 
@@ -68,7 +69,8 @@ Page({
 
 	onShow: function() {
 		inputContent[1] = '';
-		inputContent[0] = ''; 
+		inputContent[0] = '';
+		inputContent[3] = false;
 		wx.getStorage({
 			key: 'noteData',
 			success: function(res) {
@@ -89,11 +91,9 @@ Page({
 
 	okClick: function(e) {
 		addNote(true);
-		realSave = true;
+		inputContent[3] = true;
 	},
 	onUnload: function() {
-		if(!realSave) {
-			addNote(false);
-		}
+		addNote(false);
 	},
 });
