@@ -5,7 +5,7 @@
       <text>{{item.time}}</text>
       <view>
         <text>{{item.content}}</text>
-        <text>\n{{item.content1}}</text>
+        <text wx:if='{{item.content1}}'>\n{{item.content1}}</text>
         <text>\n{{item.content2}}</text>
       </view>
     </view>
