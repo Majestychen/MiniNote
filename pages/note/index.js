@@ -18,7 +18,7 @@ function getNoteData() {
 	query.descending("date");
 	query.limit(1000);
 	query.find({
-		success: function(results) { 
+		success: function(results) {  
 			noteData=results;
 			wx.setStorage({
 				key: "noteData",
@@ -245,7 +245,7 @@ Page({
 				for(var i = 0; i < noteData.length; i++) {
 					if(noteData[i].id == objectId && !noteVillage[1]) {
 						wx.navigateTo({
-							url: '../edit/index?id=' + objectId + ',' + noteData[i].attributes.note_content
+							url: '../edit/index?id=' + objectId 
 						})
 					}
 				}

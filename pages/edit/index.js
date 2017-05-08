@@ -3,7 +3,7 @@ const app = getApp();
 const Bmob = require('../../lib/bmob.js');
 const util = app.util;
 var queryParam = []; //0:openid 1:noteData
-var noteData = [];
+var noteData = [],that;
 var inputData = []; //0:inputTtile//1:inputContent //2:timeOut每次输入都保存数据//3:onload给textarea内容赋值 
 
 function updateServerData(judge) {
@@ -61,39 +61,46 @@ function saveStorageData(res, saveJudge) {
 	changeNoteData(noteData, saveJudge);
 };
 
+function init(objectID) {
+	wx.getStorage({
+		key: 'noteData',
+		success: function(noteDataRes) {		
+			noteData = noteDataRes.data;
+			for(var i = 0; i < noteDataRes.data.length; i++) {
+				if(noteDataRes.data[i].objectId == objectID) { 
+					queryParam[1] = noteDataRes.data[i].note_content;
+					wx.getSystemInfo({
+						success: function(res) {
+							var tempHeight = res.windowHeight;
+							tempHeight = tempHeight - 85;
+							that.setData({
+								ContentTextHeight: tempHeight,
+								textareaContent: queryParam[1],
+							});
+						}
+					});
+					inputData[3] = setInterval(function() {
+						that.setData({
+							textareaContent: queryParam[1],
+						});
+					}, 100);
+				}
+			}
+		},
+	});
+};
+
 Page({
 	data: {},
 	onLoad: function(query) {
-		var that = this;
-		queryParam[0] = query.id.split(',')[0];
-		queryParam[1] = query.id.slice((query.id.indexOf(",") + 1));
-		wx.getSystemInfo({
-			success: function(res) {
-				var tempHeight = res.windowHeight;
-				tempHeight = tempHeight - 85;
-				that.setData({
-					ContentTextHeight: tempHeight,
-					textareaContent: queryParam[1],
-				});
-			}
-		});
-		inputData[3] = setInterval(function() {
-			that.setData({
-				textareaContent: queryParam[1],
-			});
-		}, 100);
-
+		that = this;
+		queryParam[0] = query.id;		
+		init(queryParam[0]);
 	},
 
 	onShow: function() {
 		inputData[1] = '';
-		inputData[0] = '';
-		wx.getStorage({
-			key: 'noteData',
-			success: function(res) {
-				noteData = res.data;
-			},
-		})
+		inputData[0] = ''; 
 	},
 
 	onReady: function() {},

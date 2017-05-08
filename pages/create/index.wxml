@@ -1,7 +1,7 @@
 <!--pages/create/index.wxml-->
 <view class="container">
 	<view class='row' catchtap="onFocus">
-		<textarea bindinput="contentInput" class='text' maxlength="12000" placeholder="...第一行自动存为标题" style='height:{{ContentTextHeight}}px'/>
+		<textarea bindinput="contentInput" class='text' maxlength="-1" placeholder="...第一行自动存为标题" style='height:{{ContentTextHeight}}px'/>
 	</view>
 	<view class='sendBtn' hover-class="sendBtnHover"   bindtap="okClick">
 		好

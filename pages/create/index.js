@@ -34,7 +34,7 @@ function addNote(swicth) {
 			addNoteB.set("date", new Date().getTime());
 			addNoteB.set("note_content", inputContent[1]);
 			addNoteB.save(null, {
-				success: function(result) {
+				success: function(result) { 
 					noteData.push(result);
 					changeNoteData(noteData, swicth);
 				},
