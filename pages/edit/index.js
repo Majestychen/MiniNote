@@ -115,7 +115,7 @@ Page({
 		}
 		inputData[2] = setTimeout(function() {
 			updateServerData(false);
-		}, 500);
+		}, 600);
 	},
 
 	okClick: function(e) {
