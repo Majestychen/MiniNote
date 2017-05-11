@@ -19,13 +19,11 @@ Page({
 	},
 	aboutmeClick: function() {
 		wx.showActionSheet({
-			itemList: ['山东大叶榕信息科技有限公司', 'HaoleiQ@gmail.com', '版本:v' + appParam.wxApp.version],
+			itemList: ['HaoleiQ@gmail.com', '版本:v' + appParam.wxApp.version],
 			success: function(res) {
 				if(res.tapIndex == 0) {
-					util.setClip('山东大叶榕信息科技有限公司');
-				} else if(res.tapIndex == 1) {
 					util.setClip('HaoleiQ@gmail.com');
-				} else if(res.tapIndex == 2) {
+				} else if(res.tapIndex == 1) {
 					wx.navigateTo({
 						url: '../update/index'
 					})
