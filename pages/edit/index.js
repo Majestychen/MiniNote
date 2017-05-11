@@ -3,7 +3,8 @@ const app = getApp();
 const Bmob = require('../../lib/bmob.js');
 const util = app.util;
 var queryParam = []; //0:openid 1:noteData
-var noteData = [],that;
+var noteData = [],
+	that;
 var inputData = []; //0:inputTtile//1:inputContent //2:timeOut每次输入都保存数据//3:onload给textarea内容赋值 
 
 function updateServerData(judge) {
@@ -17,12 +18,24 @@ function updateServerData(judge) {
 			result.save({
 				success: function(res) {
 					saveStorageData(res, judge);
+				},
+				error: function(object, error) {
+					console.log('save', error)
+					util.errorTost();
 				}
 			});
 		},
 		error: function(object, error) {
-			console.log(error)
-			util.errorTost();
+			wx.showModal({
+				title: '网络开小差啦',
+				content: '是否重试?',
+				confirmText: '重试',
+				success: function(res) {
+					if(res.confirm) {
+						updateServerData(judge);
+					} else if(res.cancel) {}
+				}
+			})
 		}
 	});
 };
@@ -64,10 +77,10 @@ function saveStorageData(res, saveJudge) {
 function init(objectID) {
 	wx.getStorage({
 		key: 'noteData',
-		success: function(noteDataRes) {		
+		success: function(noteDataRes) {
 			noteData = noteDataRes.data;
 			for(var i = 0; i < noteDataRes.data.length; i++) {
-				if(noteDataRes.data[i].objectId == objectID) { 
+				if(noteDataRes.data[i].objectId == objectID) {
 					queryParam[1] = noteDataRes.data[i].note_content;
 					wx.getSystemInfo({
 						success: function(res) {
@@ -94,13 +107,13 @@ Page({
 	data: {},
 	onLoad: function(query) {
 		that = this;
-		queryParam[0] = query.id;		
+		queryParam[0] = query.id;
 		init(queryParam[0]);
 	},
 
 	onShow: function() {
 		inputData[1] = '';
-		inputData[0] = ''; 
+		inputData[0] = '';
 	},
 
 	onReady: function() {},
